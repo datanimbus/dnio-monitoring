@@ -1,0 +1,38 @@
+{
+  "name": "odp-monitoring",
+  "version": "3.9.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint app.js api/ config/ util/ --fix",
+    "test": "nyc --reporter=html --reporter=json-summary mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/appveen/odp-monitoring.git"
+  },
+  "author": "Shobhit Agrawal <shobhit@appveen.com>",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/appveen/odp-monitoring#readme",
+  "dependencies": {
+    "@appveen/odp-utils": "1.5.8",
+    "@appveen/swagger-mongoose-crud": "1.1.2",
+    "@appveen/utils": "1.1.2",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.15.2",
+    "js-yaml": "^3.13.1",
+    "lodash": "^4.17.4",
+    "log4js": "2.4.1",
+    "mongoose": "5.4.17",
+    "request": "^2.88.2",
+    "swagger-tools": "^0.10.4",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.1.0",
+    "husky": "^1.2.0",
+    "mocha": "^6.2.1",
+    "nyc": "^14.1.1"
+  }
+}

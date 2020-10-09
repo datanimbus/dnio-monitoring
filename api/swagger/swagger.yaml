@@ -1,0 +1,1761 @@
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: Monitoring API
+host: 'localhost:10005'
+basePath: /mon
+schemes:
+  - http
+consumes:
+  - application/json
+  - multipart/form-data
+produces:
+  - application/json
+  - text/plain
+paths:
+  /logs:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of logs
+      operationId: logList
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /logs/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of logs
+      operationId: logCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields  
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  /appCenter/{id}/logs:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of logs of  service
+      operationId: appCenterLog
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: Id of the object to be viewed
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /appCenter/{id}/logs/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of logs 
+      operationId: appCenterLogCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: Id of the object to be viewed
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  /gateway/agent/logs:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of logs of  service
+      operationId: gatewayAgentLog
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /gateway/agent/logs/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of logs 
+      operationId: gatewayAgentLogCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  /edgeGateway/agent/logs:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of logs of  service
+      operationId: EdgeGatewayAgentLog
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /edgeGateway/agent/logs/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of logs 
+      operationId: EdgeGatewayAgentLogCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  /{app}/agent/logs:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of logs of  service
+      operationId: agentLog
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: Id of the object to be viewed
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /{app}/agent/logs/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of logs 
+      operationId: agentLogCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: Id of the object to be viewed
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  /agent/logs:
+    x-swagger-router-controller: controller
+    post:
+      description: Store UI Log
+      operationId: agentLogInsert
+      parameters:
+        - name: data
+          in: body
+          description: Payload to Load Key Certificate Details a field
+          schema:
+            $ref: '#/definitions/agentLog'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  /ui/logs:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of UI logs
+      operationId: uiLogList
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+    post:
+      description: Store UI Log
+      operationId: uiLogCreate
+      parameters:
+        - name: data
+          in: body
+          description: Payload to Load Key Certificate Details a field
+          schema:
+            $ref: '#/definitions/uiLog_create'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  /ui/logs/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of UI logs 
+      operationId: uiLogCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  /preHooks:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of preHooks
+      operationId: preHooksList
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /preHooks/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of preHooks
+      operationId: preHooksCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields  
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  /mfGen:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of mfGen
+      operationId: mfGenList
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /mfGen/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of mfGen
+      operationId: mfGenCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields  
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  /service/{srvcid}/webHookStatus:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of webHookStatus
+      operationId: webHookStatusNew
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: srvcid
+          in: path
+          type: string
+          description: Service Id
+          required: true
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /service/{srvcid}/webHookStatus/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of webHookStatus
+      operationId: webHookStatusCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: srvcid
+          in: path
+          type: string
+          description: Service Id
+          required: true
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields  
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  '/webHookStatus/{id}':
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a webHookStatus
+      operationId: webHookStatus
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: Id of the object to be viewed
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No results to list with the given parameter set.
+        '500':
+          description: Internal server error        
+  /appCenter/{srvcid}/audit:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: audit
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: srvcid
+          in: path
+          type: string
+          description: Service Id
+          required: true
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /appCenter/{srvcid}/audit/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: auditCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: srvcid
+          in: path
+          type: string
+          description: Service Id
+          required: true  
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error 
+  /appCenter/{srvcid}/audit/purge:
+    x-swagger-router-controller: controller 
+    delete:
+      description: audit Purge
+      operationId: appcenterAuditPurge
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: srvcid
+          in: path
+          type: string
+          description: Service Id
+          required: true  
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error 
+  /appCenter/{srvcid}/log/purge:
+    x-swagger-router-controller: controller 
+    delete:
+      description: logs Purge
+      operationId: logPurge
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: srvcid
+          in: path
+          type: string
+          description: Service Id
+          required: true  
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error 
+  /appCenter/{srvcid}/preHook:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: preHook
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: srvcid
+          in: path
+          type: string
+          description: Service Id
+          required: true
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /appCenter/{srvcid}/preHook/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: preHookCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: srvcid
+          in: path
+          type: string
+          description: Service Id
+          required: true  
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error  
+  /appCenter/{srvcid}/postHook:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: postHook
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: srvcid
+          in: path
+          type: string
+          description: Service Id
+          required: true
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /appCenter/{srvcid}/postHook/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: postHookCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: srvcid
+          in: path
+          type: string
+          description: Service Id
+          required: true  
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error 
+  /author/sm/log:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: smLogs
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /author/sm/log/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: smLogsCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error  
+  /author/sm/audit:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: smAudit
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /author/sm/audit/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: smAuditCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  /author/globalSchemaAudit:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: globalSchemaAudit
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /author/globalSchemaAudit/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: globalSchemaAuditCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error    
+  /author/user/log:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: userLogs
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /author/user/log/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: userLogsCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error 
+  /author/userRoleAudit:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: userRoleAudit
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /author/userRoleAudit/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: userRoleAuditCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error  
+  /author/userDomainAudit:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: userDomainAudit
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /author/userDomainAudit/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: userDomainAuditCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  /author/userAudit:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: userAudit
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /author/userAudit/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: userAuditCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error 
+  /author/userInsight:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: userInsight
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /author/userInsight/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: userInsightCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error  
+  /author/groupInsight:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: groupInsight
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /author/groupInsight/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: groupInsightCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error 
+  /dataService/log:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: dataServiceLog
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /dataService/log/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: dataServiceLogCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error
+  /author/group/log:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: groupLog
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: page
+          in: query
+          type: integer
+          description: Page number of the request
+        - name: count
+          in: query
+          type: integer
+          description: Number of records per page
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: sort
+          in: query
+          type: string
+          description: sort parameter
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /author/group/log/count:
+    x-swagger-router-controller: controller 
+    get:
+      description: returns the count of audit
+      operationId: groupLogCount
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error    
+  /author/audit/{txnId}:
+    x-swagger-router-controller: controller
+    get:
+      description: Retrieve a list of audits
+      operationId: txnAudit
+      parameters:
+        - name: select
+          in: query
+          type: string
+          description: Comma seperated fields to be displayed
+        - name: txnId
+          in: path
+          type: string
+          required: true
+          description: Id of the object to be updated
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req.validation
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+  /author/{srvcid}/audit/purge:
+    x-swagger-router-controller: controller 
+    delete:
+      description: audit Purge
+      operationId: authorAuditPurge
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: srvcid
+          in: path
+          type: string
+          description: Service Id
+          required: true  
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error 
+  /health/live:
+    x-swagger-router-controller: controller
+    get:
+      description: heath 
+      operationId: health
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req.validation
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error 
+  /health/ready:
+    x-swagger-router-controller: controller
+    get:
+      description: heath 
+      operationId: readiness
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req.validation
+      responses:
+        '200':
+          description: List of the entites
+        '400':
+          description: Bad parameters
+        '404':
+          description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error 
+  /delete/{collection}:
+    x-swagger-router-controller: controller 
+    delete:
+      description: returns the count of audit
+      operationId: deleteCollection
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: collection
+          in: path
+          type: string
+          description: collection Name
+          required: true  
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error 
+  /create:
+    x-swagger-router-controller: controller 
+    post:
+      description: returns the count of audit
+      operationId: create
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: data
+          in: body
+          description: Payload to Load Key Certificate Details a field
+          schema:
+            $ref: '#/definitions/create' 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error 
+  /update:
+    x-swagger-router-controller: controller 
+    put:
+      description: returns the count of audit
+      operationId: update
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          description: The JWT token for req. validation
+        - name: filter
+          in: query
+          type: string
+          description: Filter records based on certain fields
+        - name: data
+          in: body
+          description: Payload to Load Key Certificate Details a field
+          schema:
+            $ref: '#/definitions/create' 
+      responses:
+        '200':
+          description: count of services
+        '400':
+          description: Bad parameters
+        '500':
+          description: Internal server error 
+definitions:
+  uiLog_create:
+    properties:
+      name:
+        type: string
+      type:
+        type: string
+      message:
+        type: string
+      stackTrace:
+        type: string
+      userId:
+        type: string
+    required:
+      - message
+      - type
+  create:
+    properties:
+      srvc:
+        type: string
+      expiry:
+        type: string
+    required:
+      - srvc
+  agentLog:
+    properties:
+      content:
+        type: string
+      checksum:
+        type: string
+      startTimestamp:
+        type: string
+      endTimestamp:
+        type: string

@@ -1,0 +1,18 @@
+'use strict';
+
+const mongoose = require('mongoose');
+const definition = require('../helpers/preHooks.definition');
+const SMCrud = require('@appveen/swagger-mongoose-crud');
+const schema = new mongoose.Schema(definition);
+const logger = global.logger;
+
+var options = {
+	logger: logger,
+	collectionName: 'preHooks'
+};
+
+var crudder = new SMCrud(schema, 'preHooks', options);
+module.exports = {
+	index: crudder.index,
+	count: crudder.count
+};
