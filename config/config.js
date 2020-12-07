@@ -14,16 +14,16 @@ function getHostOSBasedLocation() {
 	return 'host.docker.internal';
 }
 
-const odpNS = process.env.ODP_NAMESPACE;
-if (isK8sEnv() && !odpNS) throw new Error('ODP_NAMESPACE not found. Please check your configMap');
+const dataStackNS = process.env.DATA_STACK_NAMESPACE;
+if (isK8sEnv() && !dataStackNS) throw new Error('DATA_STACK_NAMESPACE not found. Please check your configMap');
 
 function get(_service) {
 	if (isK8sEnv()) {
-		if (_service == 'ne') return `http://ne.${odpNS}`;
-		if (_service == 'sm') return `http://sm.${odpNS}`;
-		if (_service == 'pm') return `http://pm.${odpNS}`;
-		if (_service == 'user') return `http://user.${odpNS}`;
-		if (_service == 'gw') return `http://gw.${odpNS}`;
+		if (_service == 'ne') return `http://ne.${dataStackNS}`;
+		if (_service == 'sm') return `http://sm.${dataStackNS}`;
+		if (_service == 'pm') return `http://pm.${dataStackNS}`;
+		if (_service == 'user') return `http://user.${dataStackNS}`;
+		if (_service == 'gw') return `http://gw.${dataStackNS}`;
 	} else if (fs.existsSync('/.dockerenv')) {
 		if (_service == 'ne') return 'http://' + getHostOSBasedLocation() + ':10010';
 		if (_service == 'sm') return 'http://' + getHostOSBasedLocation() + ':10003';
@@ -61,14 +61,14 @@ module.exports = {
 	baseUrlUSR: get('user') + '/rbac',
 	agentLogsttl : parseInt(agentLogsttl),
 	NATSConfig: {
-		url: process.env.NATS_HOST || 'nats://127.0.0.1:4222',
-		user: process.env.NATS_USER || '',
-		pass: process.env.NATS_PASS || '',
-		// maxReconnectAttempts: process.env.NATS_RECONN_ATTEMPTS || 500,
-		// reconnectTimeWait: process.env.NATS_RECONN_TIMEWAIT || 500
-		maxReconnectAttempts: process.env.NATS_RECONN_ATTEMPTS || 500,
+		url: process.env.MESSAGING_HOST || 'nats://127.0.0.1:4222',
+		user: process.env.MESSAGING_USER || '',
+		pass: process.env.MESSAGING_PASS || '',
+		// maxReconnectAttempts: process.env.MESSAGING_RECONN_ATTEMPTS || 500,
+		// reconnectTimeWait: process.env.MESSAGING_RECONN_TIMEWAIT_MILLI || 500
+		maxReconnectAttempts: process.env.MESSAGING_RECONN_ATTEMPTS || 500,
 		connectTimeout: 2000,
-		stanMaxPingOut: process.env.NATS_RECONN_TIMEWAIT || 500
+		stanMaxPingOut: process.env.MESSAGING_RECONN_TIMEWAIT_MILLI || 500
 	},
 	queueNames: {
 		dataService: 'dataService',
@@ -92,12 +92,12 @@ module.exports = {
 	isK8sEnv: isK8sEnv,
 	mongoOptions:{
 		reconnectTries: process.env.MONGO_RECONN_TRIES,
-		reconnectInterval: process.env.MONGO_RECONN_TIME,
+		reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
 		useNewUrlParser: true
 	},
 	mongoOptionsForLogDb:{
 		reconnectTries: process.env.MONGO_RECONN_TRIES,
-		reconnectInterval: process.env.MONGO_RECONN_TIME,
+		reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
 		dbName: process.env.MONGO_LOGS_DBNAME || 'odpLogs',
 		useNewUrlParser: true
 	}

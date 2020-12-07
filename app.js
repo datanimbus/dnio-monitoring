@@ -16,7 +16,7 @@ const odputils = require('@appveen/odp-utils');
 const conf = require('./config/config.js');
 
 const log4js = utils.logger.getLogger;
-const loggerName = conf.isK8sEnv() ? `[${process.env.HOSTNAME}][${process.env.ODP_NAMESPACE}]` : '[monitoring]';
+const loggerName = conf.isK8sEnv() ? `[${process.env.HOSTNAME}][${process.env.DATA_STACK_NAMESPACE}]` : '[monitoring]';
 const logger = log4js.getLogger(loggerName);
 const clients = odputils.natsStreaming;
 logger.level = process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'info';
