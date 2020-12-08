@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: mon
-          image: '__docker_registry_server__/odp:mon.__release__'
+          image: '__docker_registry_server__/data.stack:mon.__release__'
           ports:
             - containerPort: 10005
           livenessProbe:
