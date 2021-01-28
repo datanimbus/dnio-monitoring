@@ -1,17 +1,12 @@
-const fs = require('fs');
 const cuti = require('@appveen/utils');
 const log4js = cuti.logger.getLogger;
 const loggerName = isK8sEnv() ? `brahma-monitoring [${process.env.HOSTNAME}]` : 'brahma-monitoring';
 let logger = log4js.getLogger(loggerName);
 let agentLogsttl = process.env.B2B_AGENT_LOG_TTL || '2592000';
 logger.level = process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'info';
+
 function isK8sEnv() {
 	return process.env.KUBERNETES_SERVICE_HOST && process.env.KUBERNETES_SERVICE_PORT;
-}
-
-function getHostOSBasedLocation() {
-	if (process.env.PLATFORM == 'NIX') return 'localhost';
-	return 'host.docker.internal';
 }
 
 const dataStackNS = process.env.DATA_STACK_NAMESPACE;
@@ -24,12 +19,6 @@ function get(_service) {
 		if (_service == 'pm') return `http://pm.${dataStackNS}`;
 		if (_service == 'user') return `http://user.${dataStackNS}`;
 		if (_service == 'gw') return `http://gw.${dataStackNS}`;
-	} else if (fs.existsSync('/.dockerenv')) {
-		if (_service == 'ne') return 'http://' + getHostOSBasedLocation() + ':10010';
-		if (_service == 'sm') return 'http://' + getHostOSBasedLocation() + ':10003';
-		if (_service == 'pm') return 'http://' + getHostOSBasedLocation() + ':10011';
-		if (_service == 'user') return 'http://' + getHostOSBasedLocation() + ':10004';
-		if (_service == 'gw') return 'http://' + getHostOSBasedLocation() + ':9080';
 	} else {
 		if (_service == 'ne') return 'http://localhost:10010';
 		if (_service == 'sm') return 'http://localhost:10003';
