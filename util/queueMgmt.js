@@ -2,7 +2,7 @@ let e = {};
 let config = require('../config/config');
 let serviceUtils = require('./serviceUtils');
 const logger = global.logger;
-logger.trace(config.streamingConfig);
+logger.trace(JSON.stringify(config.streamingConfig));
 let mongoose = require('mongoose');
 var client = global.client;
 
@@ -38,7 +38,6 @@ client.on('reconnect', function () {
 });
 
 client.on('error', err => {
-	logger.trace(config.streamingConfig);
 	logger.error(err.message);
 });
 
