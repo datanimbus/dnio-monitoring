@@ -6,7 +6,7 @@ let logger = log4js.getLogger(loggerName);
 let agentLogsttl = process.env.B2B_AGENT_LOG_TTL || '2592000';
 logger.level = process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'info';
 function isK8sEnv() {
-	return process.env.KUBERNETES_SERVICE_HOST && process.env.KUBERNETES_SERVICE_PORT && process.env.ODPENV == 'K8s';
+	return process.env.KUBERNETES_SERVICE_HOST && process.env.KUBERNETES_SERVICE_PORT;
 }
 
 function getHostOSBasedLocation() {
@@ -60,15 +60,15 @@ module.exports = {
 	baseUrlNE: get('ne') + '/ne',
 	baseUrlUSR: get('user') + '/rbac',
 	agentLogsttl : parseInt(agentLogsttl),
-	NATSConfig: {
-		url: process.env.MESSAGING_HOST || 'nats://127.0.0.1:4222',
-		user: process.env.MESSAGING_USER || '',
-		pass: process.env.MESSAGING_PASS || '',
-		// maxReconnectAttempts: process.env.MESSAGING_RECONN_ATTEMPTS || 500,
-		// reconnectTimeWait: process.env.MESSAGING_RECONN_TIMEWAIT_MILLI || 500
-		maxReconnectAttempts: process.env.MESSAGING_RECONN_ATTEMPTS || 500,
+	streamingConfig: {
+		url: process.env.STREAMING_HOST || 'nats://127.0.0.1:4222',
+		user: process.env.STREAMING_USER || '',
+		pass: process.env.STREAMING_PASS || '',
+		// maxReconnectAttempts: process.env.STREAMING_RECONN_ATTEMPTS || 500,
+		// reconnectTimeWait: process.env.STREAMING_RECONN_TIMEWAIT_MILLI || 500
+		maxReconnectAttempts: process.env.STREAMING_RECONN_ATTEMPTS || 500,
 		connectTimeout: 2000,
-		stanMaxPingOut: process.env.MESSAGING_RECONN_TIMEWAIT_MILLI || 500
+		stanMaxPingOut: process.env.STREAMING_RECONN_TIMEWAIT_MILLI || 500
 	},
 	queueNames: {
 		dataService: 'dataService',

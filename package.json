@@ -1,6 +1,6 @@
 {
   "name": "ds-monitoring",
-  "version": "3.9.0",
+  "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -15,7 +15,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/appveen/odp-monitoring#readme",
   "dependencies": {
-    "@appveen/odp-utils": "1.5.8",
+    "@appveen/data.stack-utils": "^1.0.5",
     "@appveen/swagger-mongoose-crud": "1.1.2",
     "@appveen/utils": "1.1.2",
     "bluebird": "^3.5.0",

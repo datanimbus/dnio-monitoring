@@ -1,10 +1,8 @@
 let e = {};
-// var NATS = require('node-nats-streaming');
 let config = require('../config/config');
 let serviceUtils = require('./serviceUtils');
-// var client = NATS.connect('test-cluster', 'mon', config.NATSConfig);
 const logger = global.logger;
-logger.debug(config.NATSConfig);
+logger.trace(config.streamingConfig);
 let mongoose = require('mongoose');
 var client = global.client;
 
@@ -40,7 +38,7 @@ client.on('reconnect', function () {
 });
 
 client.on('error', err => {
-	logger.debug(config.NATSConfig);
+	logger.trace(config.streamingConfig);
 	logger.error(err.message);
 });
 

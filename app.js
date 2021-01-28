@@ -12,13 +12,15 @@ const mongo = require('mongodb').MongoClient;
 let debugDB = false;
 if (process.env.LOG_LEVEL == 'DB_DEBUG') { process.env.LOG_LEVEL = 'debug'; debugDB = true; }
 const utils = require('@appveen/utils');
-const odputils = require('@appveen/odp-utils');
+const dataStackUtils = require('@appveen/data.stack-utils');
 const conf = require('./config/config.js');
 
 const log4js = utils.logger.getLogger;
-const loggerName = conf.isK8sEnv() ? `[${process.env.HOSTNAME}][${process.env.DATA_STACK_NAMESPACE}]` : '[monitoring]';
+let version = require('./package.json').version;
+const loggerName = conf.isK8sEnv() ? `[${process.env.DATA_STACK_NAMESPACE}] [${process.env.HOSTNAME}] [MON ${version}]` : `[MON ${version}]`;
+
 const logger = log4js.getLogger(loggerName);
-const clients = odputils.natsStreaming;
+const clients = dataStackUtils.streaming;
 logger.level = process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'info';
 
 global.Promise = bluebird;
@@ -66,9 +68,13 @@ mongoose.connect(mongoLogsDB, conf.mongoOptionsForLogDb, (err) => {
 		}).catch(err => {
 			logger.error(err);
 		});
-		global.client = clients.init('odp-cluster', clientId, conf.NATSConfig);
+		global.client = clients.init(
+			process.env.STREAMING_CHANNEL || 'datastack-cluster',
+			clientId,
+			conf.streamingConfig
+		);
 		let queueMgmt = require('./util/queueMgmt');
-		let logToQueue = odputils.logToQueue('mon', queueMgmt.client, conf.queueNames.systemService, 'mon.logs');
+		let logToQueue = dataStackUtils.logToQueue('mon', queueMgmt.client, conf.queueNames.systemService, 'mon.logs');
 		app.use(logToQueue);
 		logger.info('Connected to DB');
 		logger.trace(`Connected to URL: ${mongoose.connection.host}`);
