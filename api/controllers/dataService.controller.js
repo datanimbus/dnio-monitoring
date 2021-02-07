@@ -1,5 +1,5 @@
 const fetchData = require('../../util/fetchData');
-let logger = global.logger
+let logger = global.logger;
 let e = {};
 
 e.logs = function (req, res) {
