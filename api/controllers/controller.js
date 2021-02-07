@@ -85,6 +85,8 @@ e.EdgeGatewayAgentLogCount = agentController.EdgeGatewayAgentLogCount;
 
 e.dataServiceLog = dataServiceController.logs;
 e.dataServiceLogCount = dataServiceController.logsCount;
+e.appHookLogs = dataServiceController.hookLogs;
+e.appHookLogsCount = dataServiceController.hookLogsCount;
 
 
 module.exports = e;
