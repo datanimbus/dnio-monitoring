@@ -25,26 +25,33 @@ function modifyDateFilter(filter, dateFlag) {
 }
 
 e.index = function (req, res, data) {
+	let txnId = req.get('TxnId');
 	var colName = data;
 	var reqParams = params.map(req);
 	var filter = reqParams['filter'] ? reqParams.filter : {};
+	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Incoming filter :: ${JSON.stringify(filter)}`);
 
 	var sort = reqParams['sort'] ? {} : {
 		'_metadata.lastUpdated': -1
 	};
 	reqParams['sort'] ? reqParams.sort.split(',').map(el => el.split('-').length > 1 ? sort[el.split('-')[1]] = -1 : sort[el.split('-')[0]] = 1) : null;
+	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Sort :: ${JSON.stringify(sort)}`);
+	
 	var select = reqParams['select'] ? reqParams.select.split(',') : [];
+	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Select :: ${JSON.stringify(select)}`);
+	
 	var page = reqParams['page'] ? reqParams.page : 1;
 	var count = reqParams['count'] ? reqParams.count : 10;
 	var search = reqParams['search'] ? reqParams.search : null;
 	var skip = count * (page - 1);
+	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Page/Count/Skip :: ${page}/${count}/${skip}`);
 	var query = null;
 	if (typeof filter === 'string') {
 		try {
 			filter = JSON.parse(filter);
 			filter = FilterParse(filter);
 		} catch (err) {
-			logger.error('Failed to parse filter :' + err);
+			logger.error(`[${txnId}] Index :: Collection-${colName} :: Failed to parse filter :: ${err.message}`);
 			filter = {};
 		}
 	}
@@ -52,12 +59,12 @@ e.index = function (req, res, data) {
 	if (filter.omit) {
 		filter = _.omit(filter, this.omit);
 	}
-	filter['_metadata.deleted'] = false;
+	// filter['_metadata.deleted'] = false;
 	if (search) {
 		filter['$text'] = { '$search': search };
 	}
-
 	if (data == 'user.logs' || data == 'group.logs' || data == 'dataService.logs' || !data.endsWith('.logs')) filter = modifyDateFilter(filter, false);
+	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Filter :: ${JSON.stringify(filter)}`);
 	let selectObject = {};
 	if (select.length) {
 		for (let i = 0; i < select.length; i++) {
@@ -70,7 +77,7 @@ e.index = function (req, res, data) {
 			}
 		}
 	}
-	logger.debug('index.filter', JSON.stringify(filter));
+	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Select :: ${JSON.stringify(selectObject)}`);
 	if (count == -1) {
 		query = mongoose.connection.db.collection(colName).find(filter).project(selectObject).sort(sort).toArray();
 	}
@@ -79,34 +86,30 @@ e.index = function (req, res, data) {
 	}
 	return query
 		.then(result => {
-			if (result != null) {
-				return result;
-			}
-			else {
-				return '';
-			}
-
+			logger.trace(`[${txnId}] Count :: Collection-${colName} :: ${result}`);
+			if (result != null) return result; 
+			return [];
 		})
-		.then((data) => {
-			return res.status(200).json(data);
-		})
+		.then((data) => res.status(200).json(data))
 		.catch(err => {
-			logger.error(err.message);
+			logger.error(`[${txnId}] Index :: Collection-${colName} :: ${err.message}`);
 			res.status(500).send(err.message);
 		});
 };
 
 e.count = function (req, res, data) {
+	let txnId = req.get('TxnId');
 	var colName = data;
 	var reqParams = params.map(req);
 	var filter = reqParams['filter'] ? reqParams.filter : {};
+	logger.debug(`[${txnId}] Count :: Collection-${colName} :: Incoming filter :: ${JSON.stringify(filter)}`);
 
 	if (typeof filter === 'string') {
 		try {
 			filter = JSON.parse(filter);
 			filter = FilterParse(filter);
 		} catch (err) {
-			logger.error('Failed to parse filter :' + err);
+			logger.error(`[${txnId}] Count :: Collection-${colName} :: Failed to parse filter :: ${err.message}`);
 			filter = {};
 		}
 	}
@@ -114,25 +117,21 @@ e.count = function (req, res, data) {
 	if (filter.omit) {
 		filter = _.omit(filter, this.omit);
 	}
-	filter['_metadata.deleted'] = false;
+	// filter['_metadata.deleted'] = false;
 	if (data == 'user.logs' || data == 'group.logs' || data == 'dataService.logs' || !data.endsWith('.logs')) filter = modifyDateFilter(filter, false);
-	logger.debug('count.filter', JSON.stringify(filter));
+	logger.debug(`[${txnId}] Count :: Collection-${colName} :: Filter :: ${JSON.stringify(filter)}`);
+
 	let query = mongoose.connection.db.collection(colName).countDocuments(filter);
 
 	return query
 		.then(result => {
-			if (result != null) {
-				return result;
-			}
-			else {
-				return '';
-			}
+			logger.debug(`[${txnId}] Count :: Collection-${colName} :: ${result}`);
+			if (result != null) return result;
+			return 0;
 		})
-		.then((data) => {
-			return res.status(200).json(data);
-		})
+		.then((data) => res.status(200).json(data))
 		.catch(err => {
-			logger.error(err.message);
+			logger.error(`[${txnId}] Count :: Collection-${colName} :: ${err.message}`);
 			res.status(500).send(err.message);
 		});
 };
