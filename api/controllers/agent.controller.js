@@ -16,13 +16,13 @@ e.agentLogCount = function (req, res) {
 
 e.agentLogInsert = function (req, res) {
 	let body = {
-		app: req['headers']['odp-app-name'],
-		agentId: req['headers']['odp-agent-id'],
-		ipAddress: req['headers']['odp-ip-address'],
-		macAddress: req['headers']['odp-mac-address'],
+		app: req['headers']['data-stack-app-name'],
+		agentId: req['headers']['data-stack-agent-id'],
+		ipAddress: req['headers']['data-stack-ip-address'],
+		macAddress: req['headers']['data-stack-mac-address'],
 		content: req.body.content,
-		agentType: req['headers']['odp-agent-type'],
-		agentName: req['headers']['odp-agent-name']
+		agentType: req['headers']['data-stack-agent-type'],
+		agentName: req['headers']['data-stack-agent-name']
 	};
 	global.logger.debug({ qName: config.queueNames.agentLogs, body: JSON.stringify(body) });
 	let client = global.client;

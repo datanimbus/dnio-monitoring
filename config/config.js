@@ -31,14 +31,14 @@ function get(_service) {
 function mongoUrl() {
 	let mongoUrl = process.env.MONGO_AUTHOR_URL || 'mongodb://localhost';
 	if (!mongoUrl.endsWith('/')) mongoUrl += '/';
-	mongoUrl += (process.env.MONGO_AUTHOR_DBNAME || 'odpConfig');
+	mongoUrl += (process.env.MONGO_AUTHOR_DBNAME || 'datastackConfig');
 	return mongoUrl;
 }
 
 function mongoLogUrl() {
 	let mongoUrl = process.env.MONGO_LOGS_URL || 'mongodb://localhost';
 	if (!mongoUrl.endsWith('/')) mongoUrl += '/';
-	mongoUrl += (process.env.MONGO_LOGS_DBNAME || 'odpLogs');
+	mongoUrl += (process.env.MONGO_LOGS_DBNAME || 'datastackLogs');
 	return mongoUrl;
 }
 
@@ -74,7 +74,7 @@ module.exports = {
 		groupInsight: 'group-insight',
 		logEvents: 'logEvents',
 	},
-	vishnuDB: 'odpData',
+	vishnuDB: 'datastackData',
 	validationApi: get('user') + '/rbac/validate',
 	secret: 'u?5k167v13w5fhjhuiweuyqi67621gqwdjavnbcvadjhgqyuqagsduyqtw87e187etqiasjdbabnvczmxcnkzn',
 	refreshSecret: 'iouhzsueiryozayvrhisjhtojgbaburaoganpatraoaptehjgcjgccjagaurnautbabubhaiyasdcsddscds',
@@ -87,7 +87,7 @@ module.exports = {
 	mongoOptionsForLogDb:{
 		reconnectTries: process.env.MONGO_RECONN_TRIES,
 		reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
-		dbName: process.env.MONGO_LOGS_DBNAME || 'odpLogs',
+		dbName: process.env.MONGO_LOGS_DBNAME || 'datastackLogs',
 		useNewUrlParser: true
 	}
 };

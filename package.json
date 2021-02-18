@@ -9,11 +9,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/appveen/odp-monitoring.git"
+    "url": "git+ssh://git@bitbucket.org/appveen/ds-monitoring.git"
   },
   "author": "Shobhit Agrawal <shobhit@appveen.com>",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/appveen/odp-monitoring#readme",
+  "homepage": "https://bitbucket.org/appveen/ds-monitoring#readme",
   "dependencies": {
     "@appveen/data.stack-utils": "^1.0.8",
     "@appveen/swagger-mongoose-crud": "1.1.2",
