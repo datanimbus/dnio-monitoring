@@ -47,8 +47,8 @@ e.logPurge = function (req, res) {
 		.then(async () => {
 			logger.debug('Purged logs for ', serviceId);
 			try{
-				let hookCollection = await findCollection.getHookCollectionName(serviceId)
-				await mongoose.connection.db.collection(hookCollection).deleteMany({ 'service.id' : serviceId})
+				let hookCollection = await findCollection.getHookCollectionName(serviceId);
+				await mongoose.connection.db.collection(hookCollection).deleteMany({ 'service.id' : serviceId});
 				logger.debug('Removed Hooks Log for ', serviceId);
 				return res.status(200).json({});
 			} catch(e) {
