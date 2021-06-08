@@ -15,7 +15,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/appveen/ds-monitoring#readme",
   "dependencies": {
-    "@appveen/data.stack-utils": "^1.0.8",
+    "@appveen/data.stack-utils": "^1.0.17",
     "@appveen/swagger-mongoose-crud": "1.1.2",
     "@appveen/utils": "^2.1.3",
     "bluebird": "^3.5.0",
