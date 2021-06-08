@@ -53,6 +53,28 @@ client.on('close', function () {
 	logger.info('close');
 });
 
+(async function () {
+	try {
+		const calcSeconds = 24 * 60 * 60 * config.API_LOGS_TTL_DAYS;
+		logger.info('TTL for logs is set to :', calcSeconds);
+		mongoose.connection.db.collection('dataService.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		mongoose.connection.db.collection('pm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		mongoose.connection.db.collection('sec.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		mongoose.connection.db.collection('gw.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		mongoose.connection.db.collection('dm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		mongoose.connection.db.collection('mon.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		mongoose.connection.db.collection('sm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		mongoose.connection.db.collection('user.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		mongoose.connection.db.collection('wf.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		mongoose.connection.db.collection('ne.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		mongoose.connection.db.collection('event.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		mongoose.connection.db.collection('deploymentManager.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+	} catch (err) {
+		logger.error('Error while creating TTL index');
+		logger.error(err);
+	}
+})();
+
 function dataServiceLogger() {
 	var opts = client.subscriptionOptions();
 	opts.setStartWithLastReceived();
