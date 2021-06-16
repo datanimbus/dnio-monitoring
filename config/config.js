@@ -48,7 +48,7 @@ module.exports = {
 	mongoLogUrl: mongoLogUrl(),
 	baseUrlNE: get('ne') + '/ne',
 	baseUrlUSR: get('user') + '/rbac',
-	agentLogsttl : parseInt(agentLogsttl),
+	agentLogsttl: parseInt(agentLogsttl),
 	streamingConfig: {
 		url: process.env.STREAMING_HOST || 'nats://127.0.0.1:4222',
 		user: process.env.STREAMING_USER || '',
@@ -73,18 +73,19 @@ module.exports = {
 		userInsight: 'user-insight',
 		groupInsight: 'group-insight',
 		logEvents: 'logEvents',
+		functionConsoleLogs: 'functionConsoleLogs'
 	},
 	vishnuDB: 'datastackData',
 	validationApi: get('user') + '/rbac/validate',
 	secret: 'u?5k167v13w5fhjhuiweuyqi67621gqwdjavnbcvadjhgqyuqagsduyqtw87e187etqiasjdbabnvczmxcnkzn',
 	refreshSecret: 'iouhzsueiryozayvrhisjhtojgbaburaoganpatraoaptehjgcjgccjagaurnautbabubhaiyasdcsddscds',
 	isK8sEnv: isK8sEnv,
-	mongoOptions:{
+	mongoOptions: {
 		reconnectTries: process.env.MONGO_RECONN_TRIES,
 		reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
 		useNewUrlParser: true
 	},
-	mongoOptionsForLogDb:{
+	mongoOptionsForLogDb: {
 		reconnectTries: process.env.MONGO_RECONN_TRIES,
 		reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
 		dbName: process.env.MONGO_LOGS_DBNAME || 'datastackLogs',

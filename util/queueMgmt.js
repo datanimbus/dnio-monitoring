@@ -19,6 +19,7 @@ client.on('connect', function () {
 	groupInsight();
 	agentLogger();
 	logEvents();
+	logFunctionsConsole();
 });
 
 client.on('reconnect', function () {
@@ -35,6 +36,7 @@ client.on('reconnect', function () {
 	groupInsight();
 	agentLogger();
 	logEvents();
+	logFunctionsConsole();
 });
 
 client.on('error', err => {
@@ -54,23 +56,84 @@ client.on('close', function () {
 });
 
 (async function () {
+	const calcSeconds = 24 * 60 * 60 * config.API_LOGS_TTL_DAYS;
+	logger.info('TTL for logs is set to :', calcSeconds);
 	try {
-		const calcSeconds = 24 * 60 * 60 * config.API_LOGS_TTL_DAYS;
-		logger.info('TTL for logs is set to :', calcSeconds);
-		mongoose.connection.db.collection('dataService.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
-		mongoose.connection.db.collection('pm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
-		mongoose.connection.db.collection('sec.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
-		mongoose.connection.db.collection('gw.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
-		mongoose.connection.db.collection('dm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
-		mongoose.connection.db.collection('mon.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
-		mongoose.connection.db.collection('sm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
-		mongoose.connection.db.collection('user.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
-		mongoose.connection.db.collection('wf.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
-		mongoose.connection.db.collection('ne.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
-		mongoose.connection.db.collection('event.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
-		mongoose.connection.db.collection('deploymentManager.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('dataService.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
 	} catch (err) {
-		logger.error('Error while creating TTL index');
+		logger.error('Error while creating TTL index for dataService.logs');
+		logger.error(err);
+	}
+	try {
+		await mongoose.connection.db.collection('pm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+	} catch (err) {
+		logger.error('Error while creating TTL index for pm.logs');
+		logger.error(err);
+	}
+	try {
+		await mongoose.connection.db.collection('sec.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+	} catch (err) {
+		logger.error('Error while creating TTL index for sec.logs');
+		logger.error(err);
+	}
+	try {
+		await mongoose.connection.db.collection('gw.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+	} catch (err) {
+		logger.error('Error while creating TTL index for gw.logs');
+		logger.error(err);
+	}
+	try {
+		await mongoose.connection.db.collection('dm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+	} catch (err) {
+		logger.error('Error while creating TTL index for dm.logs');
+		logger.error(err);
+	}
+	try {
+		await mongoose.connection.db.collection('mon.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+	} catch (err) {
+		logger.error('Error while creating TTL index for mon.logs');
+		logger.error(err);
+	}
+	try {
+		await mongoose.connection.db.collection('sm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+	} catch (err) {
+		logger.error('Error while creating TTL index for sm.logs');
+		logger.error(err);
+	}
+	try {
+		await mongoose.connection.db.collection('user.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+	} catch (err) {
+		logger.error('Error while creating TTL index for user.logs');
+		logger.error(err);
+	}
+	try {
+		await mongoose.connection.db.collection('wf.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+	} catch (err) {
+		logger.error('Error while creating TTL index for wf.logs');
+		logger.error(err);
+	}
+	try {
+		await mongoose.connection.db.collection('ne.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+	} catch (err) {
+		logger.error('Error while creating TTL index for ne.logs');
+		logger.error(err);
+	}
+	try {
+		await mongoose.connection.db.collection('event.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+	} catch (err) {
+		logger.error('Error while creating TTL index for event.logs');
+		logger.error(err);
+	}
+	try {
+		await mongoose.connection.db.collection('deploymentManager.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+	} catch (err) {
+		logger.error('Error while creating TTL index for deploymentManager.logs');
+		logger.error(err);
+	}
+	try {
+		await mongoose.connection.db.collection('function.console.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+	} catch (err) {
+		logger.error('Error while creating TTL index for function.console.logs');
 		logger.error(err);
 	}
 })();
@@ -341,6 +404,31 @@ function agentLogger() {
 			}
 		});
 		Promise.all(promise);
+	});
+}
+
+
+function logFunctionsConsole() {
+	var opts = client.subscriptionOptions();
+	opts.setStartWithLastReceived();
+	opts.setDurableName('function-console-logs');
+	var subscription = client.subscribe(config.queueNames.functionConsoleLogs, 'function.console.logs', opts);
+	let mongoDBColl = mongoose.connection.db.collection('function.console.logs');
+	try {
+		mongoDBColl.createIndex({ '_metadata.createdAt': 1, 'context.user': 1, 'context.app': 1, 'context.functionId': 1, 'startTime': 1, 'level.levelStr': 1 });
+	} catch (e) {
+		logger.error(e);
+	}
+	subscription.on('message', function (_body) {
+		let bodyObj = JSON.parse(_body.getData());
+		logger.debug(`Message from queue :: ${config.queueNames.functionConsoleLogs} :: ${JSON.stringify(bodyObj)}`);
+		if (bodyObj) {
+			if (bodyObj.startTime) {
+				bodyObj.startTime = new Date(bodyObj.startTime);
+			}
+			fixMetaData(bodyObj);
+			mongoDBColl.insert(bodyObj);
+		}
 	});
 }
 
