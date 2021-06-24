@@ -20,6 +20,23 @@ e.findCollectionName = function (Id) {
 		});
 };
 
+e.getHookCollectionName = function (Id) {
+	return global.mongoDBConfig.collection('services').findOne({ '_id': Id }, { app: 1 })
+		.then(result => {
+			if (result != null) {
+				logger.debug(`getHookCollectionName() :: ${Id} :: ${result.app}.hook`);
+				return `${result.app}.hook`;
+			}
+			else {
+				return '';
+			}
+
+		})
+		.catch(err => {
+			return err;
+		});
+};
+
 e.transactionData = function (req, res) {
 	let Id = req.swagger.params.txnId.value;
 	let resBody = [];

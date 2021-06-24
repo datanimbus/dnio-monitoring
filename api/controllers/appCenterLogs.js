@@ -43,12 +43,19 @@ e.appCenterLogCount = function (req, res) {
 
 e.logPurge = function (req, res) {
 	let serviceId = req.swagger.params.srvcid.value;
-	return mongoose.connection.db.collection('dataService.logs').remove({ serviceId: serviceId})
-		.then(() => {
+	return mongoose.connection.db.collection('dataService.logs').deleteMany({ serviceId: serviceId})
+		.then(async () => {
 			logger.debug('Purged logs for ', serviceId);
-			return res.status(200).json({});
-		})
-		.catch(err => {
+			try{
+				let hookCollection = await findCollection.getHookCollectionName(serviceId);
+				await mongoose.connection.db.collection(hookCollection).deleteMany({ 'service.id' : serviceId});
+				logger.debug('Removed Hooks Log for ', serviceId);
+				return res.status(200).json({});
+			} catch(e) {
+				logger.error('Error in removing hooks log :: ', e);
+				throw e;
+			}
+		}).catch(err => {
 			logger.error(err.message);
 			res.status(500).send(err.message);
 		});

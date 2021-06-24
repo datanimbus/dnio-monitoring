@@ -12,6 +12,7 @@ let serviceController = require('./serviceController');
 let insightController = require('./insight.controller');
 let agentController = require('./agent.controller');
 let dataServiceController = require('./dataService.controller');
+let functionController = require('./function.controller');
 
 let e = {};
 
@@ -87,6 +88,10 @@ e.dataServiceLog = dataServiceController.logs;
 e.dataServiceLogCount = dataServiceController.logsCount;
 e.appHookLogs = dataServiceController.hookLogs;
 e.appHookLogsCount = dataServiceController.hookLogsCount;
+
+
+e.functionLog = functionController.functionConsoleLogs;
+e.functionLogCount = functionController.functionConsoleLogsCount;
 
 
 module.exports = e;

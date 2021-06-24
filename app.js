@@ -30,7 +30,7 @@ mongoose.Promise = global.Promise;
 
 const mongoUrl = process.env.MONGO_AUTHOR_URL || 'mongodb://localhost:27017';
 const mongoLogsDB = process.env.MONGO_LOGS_URL || 'mongodb://localhost:27017';
-const dbName = process.env.MONGO_AUTHOR_DBNAME || 'odpConfig';
+const dbName = process.env.MONGO_AUTHOR_DBNAME || 'datastackConfig';
 const timeOut = process.env.API_REQUEST_TIMEOUT || 120;
 const clientId = conf.isK8sEnv() ? `${process.env.HOSTNAME}` : 'MON';
 
@@ -84,12 +84,12 @@ mongoose.connect(mongoLogsDB, conf.mongoOptionsForLogDb, (err) => {
 			if (error) logger.error(error.message);
 			if (db) {
 				global.mongoDBConfig = db.db(dbName);
-				logger.info('Connected to odpConfig DB');
-				db.on('connecting', () => { logger.info('-------------------------odpConfig connecting-------------------------'); });
-				db.on('close', () => { logger.error('-------------------------odpConfig lost connection-------------------------'); });
-				db.on('reconnect', () => { logger.info('-------------------------odpConfig reconnected-------------------------'); });
-				db.on('connected', () => { logger.info('odpConfig connected'); });
-				db.on('reconnectFailed', () => { logger.error('-------------------------odpConfig failed to reconnect-------------------------'); });
+				logger.info('Connected to datastackConfig DB');
+				db.on('connecting', () => { logger.info('-------------------------datastackConfig connecting-------------------------'); });
+				db.on('close', () => { logger.error('-------------------------datastackConfig lost connection-------------------------'); });
+				db.on('reconnect', () => { logger.info('-------------------------datastackConfig reconnected-------------------------'); });
+				db.on('connected', () => { logger.info('datastackConfig connected'); });
+				db.on('reconnectFailed', () => { logger.error('-------------------------datastackConfig failed to reconnect-------------------------'); });
 
 				// swaggerRouter configuration
 				var options = {
