@@ -403,7 +403,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  /{app}/{function}/console/logs:
+  /{app}/{faasId}/console/logs:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of logs of function
@@ -438,7 +438,7 @@ paths:
           type: string
           required: true
           description: Id of the App to be viewed
-        - name: function
+        - name: faasId
           in: path
           type: string
           required: true
@@ -452,7 +452,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /{app}/{function}/console/logs/count:
+  /{app}/{faasId}/console/logs/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of logs 
@@ -471,7 +471,7 @@ paths:
           type: string
           required: true
           description: Id of the App to be viewed
-        - name: function
+        - name: faasId
           in: path
           type: string
           required: true
