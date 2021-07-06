@@ -427,7 +427,7 @@ function logFunctionsConsole() {
 		}
 	});
 	try {
-		mongoDBColl.createIndex({ '_metadata.createdAt': 1, 'context.user': 1, 'context.app': 1, 'context.functionId': 1, 'startTime': 1, 'level.levelStr': 1 });
+		mongoDBColl.createIndex({ '_metadata.createdAt': 1, 'context.user': 1, 'context.app': 1, 'context.faasId': 1, 'startTime': 1, 'level.levelStr': 1 });
 	} catch (e) {
 		logger.error(e);
 	}
