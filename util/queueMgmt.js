@@ -131,9 +131,9 @@ client.on('close', function () {
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('function.console.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('faas.console.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
 	} catch (err) {
-		logger.error('Error while creating TTL index for function.console.logs');
+		logger.error('Error while creating TTL index for faas.console.logs');
 		logger.error(err);
 	}
 })();
@@ -411,9 +411,9 @@ function agentLogger() {
 function logFunctionsConsole() {
 	var opts = client.subscriptionOptions();
 	opts.setStartWithLastReceived();
-	opts.setDurableName('function-console-logs');
-	var subscription = client.subscribe(config.queueNames.functionConsoleLogs, 'function.console.logs', opts);
-	let mongoDBColl = mongoose.connection.db.collection('function.console.logs');
+	opts.setDurableName('faas-console-logs');
+	var subscription = client.subscribe(config.queueNames.faasConsoleLogs, 'faas.console.logs', opts);
+	let mongoDBColl = mongoose.connection.db.collection('faas.console.logs');
 	try {
 		mongoDBColl.createIndex({ '_metadata.createdAt': 1, 'context.user': 1, 'context.app': 1, 'context.functionId': 1, 'startTime': 1, 'level.levelStr': 1 });
 	} catch (e) {
@@ -421,7 +421,7 @@ function logFunctionsConsole() {
 	}
 	subscription.on('message', function (_body) {
 		let bodyObj = JSON.parse(_body.getData());
-		logger.debug(`Message from queue :: ${config.queueNames.functionConsoleLogs} :: ${JSON.stringify(bodyObj)}`);
+		logger.debug(`Message from queue :: ${config.queueNames.faasConsoleLogs} :: ${JSON.stringify(bodyObj)}`);
 		if (bodyObj) {
 			if (bodyObj.startTime) {
 				bodyObj.startTime = new Date(bodyObj.startTime);

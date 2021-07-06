@@ -73,7 +73,7 @@ module.exports = {
 		userInsight: 'user-insight',
 		groupInsight: 'group-insight',
 		logEvents: 'logEvents',
-		functionConsoleLogs: 'functionConsoleLogs'
+		faasConsoleLogs: 'faasConsoleLogs'
 	},
 	vishnuDB: 'datastackData',
 	validationApi: get('user') + '/rbac/validate',
