@@ -377,7 +377,7 @@ function agentLogger() {
 	let rawData = null;
 	let collectionName = null;
 	let promise = [];
-	var subscription = client.subscribe(config.queueNames.agentLogs, 'agent.logs', opts);
+	var subscription = client.subscribe(config.queueNames.agentLogs, opts);
 	subscription.on('message', function (_body) {
 		logger.debug('Message consumed from agentLogs ' + _body);
 		let bodyObj = JSON.parse(_body.getData());
@@ -412,7 +412,7 @@ function logFunctionsConsole() {
 	var opts = client.subscriptionOptions();
 	opts.setStartWithLastReceived();
 	opts.setDurableName('faas-console-logs');
-	var subscription = client.subscribe(config.queueNames.faasConsoleLogs, 'faas.console.logs', opts);
+	var subscription = client.subscribe(config.queueNames.faasConsoleLogs, opts);
 	let mongoDBColl = mongoose.connection.db.collection('faas.console.logs');
 	subscription.on('message', function (_body) {
 		const data = _body.getData();
