@@ -420,8 +420,9 @@ function logFunctionsConsole() {
 		logger.error(e);
 	}
 	subscription.on('message', function (_body) {
-		let bodyObj = JSON.parse(_body.getData());
-		logger.debug(`Message from queue :: ${config.queueNames.faasConsoleLogs} :: ${JSON.stringify(bodyObj)}`);
+		const data = _body.getData();
+		logger.debug(`Message from queue :: ${config.queueNames.faasConsoleLogs} :: ${data}`);
+		let bodyObj = JSON.parse(data);
 		if (bodyObj) {
 			if (bodyObj.startTime) {
 				bodyObj.startTime = new Date(bodyObj.startTime);
