@@ -414,11 +414,6 @@ function logFunctionsConsole() {
 	opts.setDurableName('faas-console-logs');
 	var subscription = client.subscribe(config.queueNames.faasConsoleLogs, 'faas.console.logs', opts);
 	let mongoDBColl = mongoose.connection.db.collection('faas.console.logs');
-	try {
-		mongoDBColl.createIndex({ '_metadata.createdAt': 1, 'context.user': 1, 'context.app': 1, 'context.functionId': 1, 'startTime': 1, 'level.levelStr': 1 });
-	} catch (e) {
-		logger.error(e);
-	}
 	subscription.on('message', function (_body) {
 		const data = _body.getData();
 		logger.debug(`Message from queue :: ${config.queueNames.faasConsoleLogs} :: ${data}`);
@@ -431,6 +426,11 @@ function logFunctionsConsole() {
 			mongoDBColl.insert(bodyObj);
 		}
 	});
+	try {
+		mongoDBColl.createIndex({ '_metadata.createdAt': 1, 'context.user': 1, 'context.app': 1, 'context.functionId': 1, 'startTime': 1, 'level.levelStr': 1 });
+	} catch (e) {
+		logger.error(e);
+	}
 }
 
 function processContent(data) {
