@@ -335,7 +335,7 @@ function interactionsLogger() {
 function userInsight() {
 	var opts = client.subscriptionOptions();
 	opts.setStartWithLastReceived();
-	opts.setDurableName('insight-logs-durable');
+	opts.setDurableName('user-insight-logs-durable');
 	var subscription = client.subscribe(config.queueNames.userInsight, opts);
 	subscription.on('message', function (_body) {
 		let bodyObj = JSON.parse(_body.getData());
@@ -352,7 +352,7 @@ function userInsight() {
 function groupInsight() {
 	var opts = client.subscriptionOptions();
 	opts.setStartWithLastReceived();
-	opts.setDurableName('insight-logs-durable');
+	opts.setDurableName('group-insight-logs-durable');
 	var subscription = client.subscribe(config.queueNames.groupInsight, opts);
 	subscription.on('message', function (_body) {
 		let bodyObj = JSON.parse(_body.getData());
