@@ -57,6 +57,7 @@ client.on('close', function () {
 
 (async function () {
 	const calcSeconds = 24 * 60 * 60 * config.API_LOGS_TTL_DAYS;
+	const calcSecondsFaas = 24 * 60 * 60 * config.FAAS_LOGS_TTL_DAYS;
 	logger.info('TTL for logs is set to :', calcSeconds);
 	try {
 		await mongoose.connection.db.collection('dataService.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
@@ -131,7 +132,7 @@ client.on('close', function () {
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('faas.console.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('faas.console.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSecondsFaas });
 	} catch (err) {
 		logger.error('Error while creating TTL index for faas.console.logs');
 		logger.error(err);
