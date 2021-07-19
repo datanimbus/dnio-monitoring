@@ -10,7 +10,7 @@ let dateField = ['_metadata.createdAt', '_metadata.lastUpdated', 'timeStamp', 't
 function modifyDateFilter(filter, dateFlag) {
 	if (filter instanceof RegExp) return filter;
 	if (Array.isArray(filter)) return filter.map(_f => modifyDateFilter(_f, dateFlag));
-	if (typeof filter === 'object') {
+	if (filter && typeof filter === 'object') {
 		let newFilter = {};
 		Object.keys(filter).forEach(_k => {
 			if (dateField.indexOf(_k) > -1) {
