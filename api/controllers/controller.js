@@ -56,6 +56,8 @@ e.globalSchemaAuditCount = serviceManagerController.globalSchemaAuditCount;
 
 e.userLogs = insightController.userInsight;
 e.userLogsCount = insightController.userInsightCount;
+e.botLogs = insightController.botInsight;
+e.botLogsCount = insightController.botInsightCount;
 e.health = userManagerController.health;
 e.readiness = userManagerController.readiness;
 
