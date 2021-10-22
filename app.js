@@ -3,8 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const jsyaml = require('js-yaml');
 const swaggerTools = require('swagger-tools');
-const app = require('express')();
-const bodyParser = require('body-parser');
+const express = require('express');
+const app = express();
 const bluebird = require('bluebird');
 const mongoose = require('mongoose');
 const mongo = require('mongodb').MongoClient;
@@ -52,8 +52,8 @@ if (conf.isK8sEnv()) {
 	logger.info('*** Local environment detected ***');
 }
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 mongoose.connect(mongoLogsDB, conf.mongoOptionsForLogDb, (err) => {
 	if (err) {

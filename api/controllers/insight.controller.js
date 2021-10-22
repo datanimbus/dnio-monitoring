@@ -16,6 +16,15 @@ e.userInsightCount = function (req, res) {
 	fetData.count(req, res,colName);
 };
 
+e.botInsight = function (req, res) {
+	let colName = 'user.logs';
+	fetData.index(req, res,colName);
+};
+e.botInsightCount = function (req, res) {
+	let colName = 'user.logs';
+	fetData.count(req, res,colName);
+};
+
 e.groupInsight = function (req, res) {
 	let colName = 'group.logs';
 	fetData.index(req, res,colName);
