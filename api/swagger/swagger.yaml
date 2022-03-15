@@ -338,11 +338,6 @@ paths:
           in: query
           type: string
           description: sort parameter
-        - name: app
-          in: path
-          type: string
-          required: true
-          description: Id of the object to be viewed
       responses:
         '200':
           description: List of the entites
