@@ -24,7 +24,7 @@
     "express": "^4.15.2",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.20",
-    "log4js": "^6.3.0",
+    "log4js": "^6.4.3",
     "mongoose": "5.4.17",
     "request": "^2.88.2",
     "swagger-tools": "^0.10.4",
