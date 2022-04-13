@@ -1,3 +1,6 @@
+const _ = require('lodash');
+
+
 let auditController = require('./audit.controller');
 let logController = require('./log.controller');
 let preHooksController = require('./preHooks.controller');
@@ -165,8 +168,14 @@ module.exports = router;
 
 
 function mapSwaggerParams(req, res, next) {
+	const temp = {};
+	_.merge(temp, req.params, req.query);
 	const params = {};
-	Object.assign(params, req.params, req.query);
+	// Object.assign(params, req.params, req.query);
+	Object.keys(temp).forEach(key => {
+		params[key] = { value: temp[key] };
+	});
+	// logger.debug(req.params, req.query, params);
 	req.swagger = {
 		params
 	};
