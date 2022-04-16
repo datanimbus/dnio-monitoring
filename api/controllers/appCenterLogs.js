@@ -5,7 +5,7 @@ const logger = global.logger;
 let mongoose = require('mongoose');
 
 e.appCenterLog = function (req, res) {
-	let serviceName = req.swagger.params.id.value;
+	let serviceName = req.params.id;
 	findCollection.findCollectionName(serviceName)
 		.then(function (data) {
 			if (data) {
@@ -23,7 +23,7 @@ e.appCenterLog = function (req, res) {
 
 };
 e.appCenterLogCount = function (req, res) {
-	let serviceName = req.swagger.params.id.value;
+	let serviceName = req.params.id;
 	findCollection.findCollectionName(serviceName)
 		.then(function (data) {
 			if (data) {
@@ -42,7 +42,7 @@ e.appCenterLogCount = function (req, res) {
 };
 
 e.logPurge = function (req, res) {
-	let serviceId = req.swagger.params.srvcid.value;
+	let serviceId = req.params.srvcid;
 	return mongoose.connection.db.collection('dataService.logs').deleteMany({ serviceId: serviceId})
 		.then(async () => {
 			logger.debug('Purged logs for ', serviceId);

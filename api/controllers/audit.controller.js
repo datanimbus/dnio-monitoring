@@ -6,7 +6,7 @@ const logger = global.logger;
 let mongoose = require('mongoose');
 
 e.auditLog = function (req, res) {
-	let serviceName = req.swagger.params.srvcid.value;
+	let serviceName = req.params.srvcid;
 	findCollection.findCollectionName(serviceName)
 		.then(function (data) {
 			data = data + '.audit';
@@ -19,7 +19,7 @@ e.auditLog = function (req, res) {
 
 };
 e.auditLogCount = function (req, res) {
-	let serviceName = req.swagger.params.srvcid.value;
+	let serviceName = req.params.srvcid;
 	findCollection.findCollectionName(serviceName)
 		.then(function (data) {
 			data = data + '.audit';
@@ -33,7 +33,7 @@ e.auditLogCount = function (req, res) {
 };
 
 e.appcenterAuditPurge = function (req, res) {
-	let serviceName = req.swagger.params.srvcid.value;
+	let serviceName = req.params.srvcid;
 	findCollection.findCollectionName(serviceName)
 		.then(function (data) {
 			data = data + '.audit';
@@ -49,7 +49,7 @@ e.appcenterAuditPurge = function (req, res) {
 };
 
 e.txnAudit = function (req, res) {
-	//let txnId = req.swagger.params.txnId.value;
+	//let txnId = req.params.txnId;
 	findCollection.transactionData(req, res);
 };
 

@@ -17,7 +17,7 @@
   "dependencies": {
     "@appveen/data.stack-utils": "^1.0.17",
     "@appveen/ds-auth-cache": "^1.0.1",
-    "@appveen/swagger-mongoose-crud": "1.2.7",
+    "@appveen/swagger-mongoose-crud": "1.2.8",
     "@appveen/utils": "^2.1.6",
     "bluebird": "^3.5.0",
     "express": "^4.15.3",

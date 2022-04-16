@@ -1,4 +1,3 @@
-const _ = require('lodash');
 
 
 let auditController = require('./audit.controller');
@@ -105,79 +104,63 @@ let functionController = require('./function.controller');
 const router = require('express').Router();
 
 
-router.get('/logs', mapSwaggerParams, logController.index);
-router.get('/logs/count', mapSwaggerParams, logController.count);
-router.get('/appCenter/:id/logs', mapSwaggerParams, appCenterLogs.appCenterLog);
-router.get('/appCenter/:id/logs/count', mapSwaggerParams, appCenterLogs.appCenterLogCount);
-router.get('/gateway/agent/logs', mapSwaggerParams, agentController.gatewayAgentLog);
-router.get('/gateway/agent/logs/count', mapSwaggerParams, agentController.gatewayAgentLogCount);
-router.get('/edgeGateway/agent/logs', mapSwaggerParams, agentController.EdgeGatewayAgentLog);
-router.get('/edgeGateway/agent/logs/count', mapSwaggerParams, agentController.EdgeGatewayAgentLogCount);
-router.get('/:app/agent/logs', mapSwaggerParams, agentController.agentLog);
-router.get('/:app/agent/logs/count', mapSwaggerParams, agentController.agentLogCount);
-router.get('/:app/hooks', mapSwaggerParams, dataServiceController.hookLogs);
-router.get('/:app/hooks/count', mapSwaggerParams, dataServiceController.hookLogsCount);
-router.get('/:app/:faasId/console/logs', mapSwaggerParams, functionController.functionConsoleLogs);
-router.get('/:app/:faasId/console/logs/count', mapSwaggerParams, functionController.functionConsoleLogsCount);
-router.post('/agent/logs', mapSwaggerParams, agentController.agentLogInsert);
-router.get('/ui/logs', mapSwaggerParams, uiLogController.index);
-router.post('/ui/logs', mapSwaggerParams, uiLogController.create);
-router.get('/ui/logs/count', mapSwaggerParams, uiLogController.count);
-router.get('/preHooks', mapSwaggerParams, preHooksController.index);
-router.get('/preHooks/count', mapSwaggerParams, preHooksController.count);
-router.get('/mfGen', mapSwaggerParams, mfGenController.index);
-router.get('/mfGen/count', mapSwaggerParams, mfGenController.count);
-router.get('/appCenter/:srvcid/audit', mapSwaggerParams, auditController.auditLog);
-router.get('/appCenter/:srvcid/audit/count', mapSwaggerParams, auditController.auditLogCount);
-router.delete('/appCenter/:srvcid/audit/purge', mapSwaggerParams, auditController.appcenterAuditPurge);
-router.delete('/appCenter/:srvcid/log/purge', mapSwaggerParams, appCenterLogs.logPurge);
-router.get('/appCenter/:srvcid/preHook', mapSwaggerParams, preHooksController.index);
-router.get('/appCenter/:srvcid/preHook/count', mapSwaggerParams, preHookDefController.preHookLogCount);
-router.get('/appCenter/:srvcid/postHook', mapSwaggerParams, postHookDefController.postHookLog);
-router.get('/appCenter/:srvcid/postHook/count', mapSwaggerParams, postHookDefController.postHookLogCount);
-router.get('/author/sm/log', mapSwaggerParams, serviceManagerController.log);
-router.get('/author/sm/log/count', mapSwaggerParams, serviceManagerController.logCount);
-router.get('/author/sm/audit', mapSwaggerParams, serviceManagerController.smAudit);
-router.get('/author/sm/audit/count', mapSwaggerParams, serviceManagerController.smAuditCount);
-router.get('/author/globalSchemaAudit', mapSwaggerParams, serviceManagerController.globalSchemaAudit);
-router.get('/author/globalSchemaAudit/count', mapSwaggerParams, serviceManagerController.globalSchemaAuditCount);
-router.get('/author/user/log', mapSwaggerParams, insightController.userInsight);
-router.get('/author/user/log/count', mapSwaggerParams, insightController.userInsightCount);
-router.get('/author/bot/log', mapSwaggerParams, insightController.botInsight);
-router.get('/author/bot/log/count', mapSwaggerParams, insightController.botInsightCount);
-router.get('/author/userRoleAudit', mapSwaggerParams, userManagerController.userRoleAudit);
-router.get('/author/userRoleAudit/count', mapSwaggerParams, userManagerController.userRoleAuditCount);
-router.get('/author/userDomainAudit', mapSwaggerParams, userManagerController.userDomainAudit);
-router.get('/author/userDomainAudit/count', mapSwaggerParams, userManagerController.userDomainAuditCount);
-router.get('/author/userAudit', mapSwaggerParams, userManagerController.userAudit);
-router.get('/author/userAudit/count', mapSwaggerParams, userManagerController.userAuditCount);
-router.get('/dataService/log', mapSwaggerParams, dataServiceController.logs);
-router.get('/dataService/log/count', mapSwaggerParams, dataServiceController.logsCount);
-router.get('/author/group/log', mapSwaggerParams, insightController.groupInsight);
-router.get('/author/group/log/count', mapSwaggerParams, insightController.groupInsightCount);
-router.get('/author/audit/:txnId', mapSwaggerParams, auditController.txnAudit);
-router.delete('/author/:srvcid/audit/purge', mapSwaggerParams, serviceManagerController.authorAuditPurge);
-router.get('/health/live', mapSwaggerParams, userManagerController.health);
-router.get('/health/ready', mapSwaggerParams, userManagerController.readiness);
-router.delete('/delete/:collection', mapSwaggerParams, serviceController.delete);
-router.post('/create', mapSwaggerParams, serviceController.create);
-router.put('/update', mapSwaggerParams, serviceController.update);
+router.get('/logs', logController.index);
+router.get('/logs/count', logController.count);
+router.get('/appCenter/:id/logs', appCenterLogs.appCenterLog);
+router.get('/appCenter/:id/logs/count', appCenterLogs.appCenterLogCount);
+router.get('/gateway/agent/logs', agentController.gatewayAgentLog);
+router.get('/gateway/agent/logs/count', agentController.gatewayAgentLogCount);
+router.get('/edgeGateway/agent/logs', agentController.EdgeGatewayAgentLog);
+router.get('/edgeGateway/agent/logs/count', agentController.EdgeGatewayAgentLogCount);
+router.get('/:app/agent/logs', agentController.agentLog);
+router.get('/:app/agent/logs/count', agentController.agentLogCount);
+router.get('/:app/hooks', dataServiceController.hookLogs);
+router.get('/:app/hooks/count', dataServiceController.hookLogsCount);
+router.get('/:app/:faasId/console/logs', functionController.functionConsoleLogs);
+router.get('/:app/:faasId/console/logs/count', functionController.functionConsoleLogsCount);
+router.post('/agent/logs', agentController.agentLogInsert);
+router.get('/ui/logs', uiLogController.index);
+router.post('/ui/logs', uiLogController.create);
+router.get('/ui/logs/count', uiLogController.count);
+router.get('/preHooks', preHooksController.index);
+router.get('/preHooks/count', preHooksController.count);
+router.get('/mfGen', mfGenController.index);
+router.get('/mfGen/count', mfGenController.count);
+router.get('/appCenter/:srvcid/audit', auditController.auditLog);
+router.get('/appCenter/:srvcid/audit/count', auditController.auditLogCount);
+router.delete('/appCenter/:srvcid/audit/purge', auditController.appcenterAuditPurge);
+router.delete('/appCenter/:srvcid/log/purge', appCenterLogs.logPurge);
+router.get('/appCenter/:srvcid/preHook', preHooksController.index);
+router.get('/appCenter/:srvcid/preHook/count', preHookDefController.preHookLogCount);
+router.get('/appCenter/:srvcid/postHook', postHookDefController.postHookLog);
+router.get('/appCenter/:srvcid/postHook/count', postHookDefController.postHookLogCount);
+router.get('/author/sm/log', serviceManagerController.log);
+router.get('/author/sm/log/count', serviceManagerController.logCount);
+router.get('/author/sm/audit', serviceManagerController.smAudit);
+router.get('/author/sm/audit/count', serviceManagerController.smAuditCount);
+router.get('/author/globalSchemaAudit', serviceManagerController.globalSchemaAudit);
+router.get('/author/globalSchemaAudit/count', serviceManagerController.globalSchemaAuditCount);
+router.get('/author/user/log', insightController.userInsight);
+router.get('/author/user/log/count', insightController.userInsightCount);
+router.get('/author/bot/log', insightController.botInsight);
+router.get('/author/bot/log/count', insightController.botInsightCount);
+router.get('/author/userRoleAudit', userManagerController.userRoleAudit);
+router.get('/author/userRoleAudit/count', userManagerController.userRoleAuditCount);
+router.get('/author/userDomainAudit', userManagerController.userDomainAudit);
+router.get('/author/userDomainAudit/count', userManagerController.userDomainAuditCount);
+router.get('/author/userAudit', userManagerController.userAudit);
+router.get('/author/userAudit/count', userManagerController.userAuditCount);
+router.get('/dataService/log', dataServiceController.logs);
+router.get('/dataService/log/count', dataServiceController.logsCount);
+router.get('/author/group/log', insightController.groupInsight);
+router.get('/author/group/log/count', insightController.groupInsightCount);
+router.get('/author/audit/:txnId', auditController.txnAudit);
+router.delete('/author/:srvcid/audit/purge', serviceManagerController.authorAuditPurge);
+router.get('/health/live', userManagerController.health);
+router.get('/health/ready', userManagerController.readiness);
+router.delete('/delete/:collection', serviceController.delete);
+router.post('/create', serviceController.create);
+router.put('/update', serviceController.update);
 
 
 module.exports = router;
-
-
-function mapSwaggerParams(req, res, next) {
-	const temp = {};
-	_.merge(temp, req.params, req.query);
-	const params = {};
-	// Object.assign(params, req.params, req.query);
-	Object.keys(temp).forEach(key => {
-		params[key] = { value: temp[key] };
-	});
-	// logger.debug(req.params, req.query, params);
-	req.swagger = {
-		params
-	};
-	next();
-}

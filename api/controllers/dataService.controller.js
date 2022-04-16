@@ -18,7 +18,7 @@ e.logsCount = function (req, res) {
 
 e.hookLogs = function (req, res) {
 	let txnId = req.get('TxnId');
-	let app = req.swagger.params.app.value;
+	let app = req.params.app;
 	let colName = `${app}.hook`;
 	logger.info(`[${txnId}] Fetching hook logs for ${app}`);
 	logger.debug(`[${txnId}] Fetching hook logs for ${app} :: Collection :: ${colName}`);
@@ -27,7 +27,7 @@ e.hookLogs = function (req, res) {
 
 e.hookLogsCount = function (req, res) {
 	let txnId = req.get('TxnId');
-	let app = req.swagger.params.app.value;
+	let app = req.params.app;
 	let colName = `${app}.hook`;
 	logger.info(`[${txnId}] Fetching hook logs for ${app}`);
 	logger.debug(`[${txnId}] Fetching hook logs for ${app} :: Collection :: ${colName}`);
