@@ -38,7 +38,7 @@ e.getHookCollectionName = function (Id) {
 };
 
 e.transactionData = function (req, res) {
-	let Id = req.swagger.params.txnId.value;
+	let Id = req.params.txnId;
 	let resBody = [];
 	var promise1 = mongoose.connection.db.collection('sm.audit').find({ txnId: Id }).toArray();
 	var promise2 = mongoose.connection.db.collection('globalSchema.audit').find({ txnId: Id }).toArray();

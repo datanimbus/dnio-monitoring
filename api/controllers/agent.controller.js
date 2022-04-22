@@ -4,12 +4,12 @@ const fetData = require('../../util/fetchData');
 let config = require('../../config/config');
 
 e.agentLog = function (req, res) {
-	let app = req.swagger.params.app.value;
+	let app = req.params.app;
 	let colName = app + '.agentLogs';
 	fetData.index(req, res, colName);
 };
 e.agentLogCount = function (req, res) {
-	let app = req.swagger.params.app.value;
+	let app = req.params.app;
 	let colName = app + '.agentLogs';
 	fetData.count(req, res, colName);
 };
