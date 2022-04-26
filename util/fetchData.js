@@ -40,7 +40,7 @@ e.index = function (req, res, data) {
 	var select = reqParams['select'] ? reqParams.select.split(',') : [];
 	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Select :: ${JSON.stringify(select)}`);
 	
-	var page = reqParams['page'] ? reqParams.page : 1;
+	var page = reqParams['page'] ? +reqParams.page : 1;
 	var count = reqParams['count'] ? +reqParams.count : 10;
 	var search = reqParams['search'] ? reqParams.search : null;
 	var skip = count * (page - 1);
