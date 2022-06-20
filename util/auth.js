@@ -14,7 +14,7 @@ const permittedUrls = [
 	'/rbac/authType/{userName}'
 ];
 
-router.use(AuthCacheMW({ permittedUrls, secret: config.TOKEN_SECRET, decodeOnly: true }));
+router.use(AuthCacheMW({ permittedUrls, secret: config.RBAC_JWT_KEY, decodeOnly: true }));
 
 router.use((req, res, next) => {
 	if (!req.locals) {

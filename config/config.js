@@ -93,5 +93,6 @@ module.exports = {
 	},
 	API_LOGS_TTL_DAYS: process.env.API_LOGS_TTL_DAYS ? parseInt(process.env.API_LOGS_TTL_DAYS, 10) : 30,
 	FAAS_LOGS_TTL_DAYS: process.env.FAAS_LOGS_TTL_DAYS ? parseInt(process.env.FAAS_LOGS_TTL_DAYS, 10) : 30,
-	TOKEN_SECRET: process.env.TOKEN_SECRET || 'u?5k167v13w5fhjhuiweuyqi67621gqwdjavnbcvadjhgqyuqagsduyqtw87e187etqiasjdbabnvczmxcnkzn'
+	TOKEN_SECRET: process.env.TOKEN_SECRET || 'u?5k167v13w5fhjhuiweuyqi67621gqwdjavnbcvadjhgqyuqagsduyqtw87e187etqiasjdbabnvczmxcnkzn',
+	RBAC_JWT_KEY: process.env.RBAC_JWT_KEY || 'u?5k167v13w5fhjhuiweuyqi67621gqwdjavnbcvadjhgqyuqagsduyqtw87e187etqiasjdbabnvczmxcnkzn',
 };
