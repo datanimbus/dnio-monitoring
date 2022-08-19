@@ -81,13 +81,13 @@ module.exports = {
 	refreshSecret: 'iouhzsueiryozayvrhisjhtojgbaburaoganpatraoaptehjgcjgccjagaurnautbabubhaiyasdcsddscds',
 	isK8sEnv: isK8sEnv,
 	mongoOptions: {
-		reconnectTries: process.env.MONGO_RECONN_TRIES,
-		reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
+		// reconnectTries: process.env.MONGO_RECONN_TRIES,
+		// reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
 		useNewUrlParser: true
 	},
 	mongoOptionsForLogDb: {
-		reconnectTries: process.env.MONGO_RECONN_TRIES,
-		reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
+		// reconnectTries: process.env.MONGO_RECONN_TRIES,
+		// reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
 		dbName: process.env.MONGO_LOGS_DBNAME || 'datastackLogs',
 		useNewUrlParser: true
 	},
