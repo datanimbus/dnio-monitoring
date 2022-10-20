@@ -11,7 +11,7 @@ function createIndexes(collection) {
 			.finally(() => {
 				let indexPromises = keys.map(_k => {
 					return mongoose.connection.db.collection(`${collection}.${_c}`)
-						.createIndex({ [_k]: 1 }).catch();
+						.createIndex({ [_k]: 1 }, { name: 'Search Index' }).catch();
 				});
 				return Promise.all(indexPromises);
 			});

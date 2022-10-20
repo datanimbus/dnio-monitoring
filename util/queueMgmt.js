@@ -60,79 +60,79 @@ client.on('close', function () {
 	const calcSecondsFaas = 24 * 60 * 60 * config.FAAS_LOGS_TTL_DAYS;
 	logger.info('TTL for logs is set to :', calcSeconds);
 	try {
-		await mongoose.connection.db.collection('dataService.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('dataService.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
 	} catch (err) {
 		logger.error('Error while creating TTL index for dataService.logs');
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('pm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('pm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
 	} catch (err) {
 		logger.error('Error while creating TTL index for pm.logs');
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('sec.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('sec.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
 	} catch (err) {
 		logger.error('Error while creating TTL index for sec.logs');
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('gw.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('gw.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
 	} catch (err) {
 		logger.error('Error while creating TTL index for gw.logs');
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('dm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('dm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
 	} catch (err) {
 		logger.error('Error while creating TTL index for dm.logs');
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('mon.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('mon.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
 	} catch (err) {
 		logger.error('Error while creating TTL index for mon.logs');
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('sm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('sm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
 	} catch (err) {
 		logger.error('Error while creating TTL index for sm.logs');
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('user.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('user.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
 	} catch (err) {
 		logger.error('Error while creating TTL index for user.logs');
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('wf.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('wf.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
 	} catch (err) {
 		logger.error('Error while creating TTL index for wf.logs');
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('ne.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('ne.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
 	} catch (err) {
 		logger.error('Error while creating TTL index for ne.logs');
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('event.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('event.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
 	} catch (err) {
 		logger.error('Error while creating TTL index for event.logs');
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('deploymentManager.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds });
+		await mongoose.connection.db.collection('deploymentManager.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
 	} catch (err) {
 		logger.error('Error while creating TTL index for deploymentManager.logs');
 		logger.error(err);
 	}
 	try {
-		await mongoose.connection.db.collection('faas.console.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSecondsFaas });
+		await mongoose.connection.db.collection('faas.console.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSecondsFaas, name: 'AUTO_EXPIRE' });
 	} catch (err) {
 		logger.error('Error while creating TTL index for faas.console.logs');
 		logger.error(err);
@@ -400,7 +400,7 @@ function agentLogger() {
 				body.timeStamp = new Date(body.timeStamp);
 				body._metadata.deleted = false;
 				let mongoDBColl = mongoose.connection.db.collection(collectionName);
-				promise.push(mongoose.connection.db.collection(collectionName).createIndex({ 'timeStamp': 1 }, { expireAfterSeconds: config.agentLogsttl }));
+				promise.push(mongoose.connection.db.collection(collectionName).createIndex({ 'timeStamp': 1 }, { expireAfterSeconds: config, name: 'AUTO_EXPIRE'.agentLogsttl }));
 				promise.push(mongoDBColl.insert(body));
 			}
 		});
