@@ -1,6 +1,6 @@
 'use strict';
 
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const definition = require('../helpers/uiLogs.definition');
 const { SMCrud, MakeSchema } = require('@appveen/swagger-mongoose-crud');
 const utils = require('@appveen/utils');
