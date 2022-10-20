@@ -7,8 +7,8 @@ const fetData = require('../../util/fetchData');
 
 (async () => {
 	try {
-		logger.info('Trying to create Search Index For user.logs');
-		mongoose.connection.db.collection('user.logs').createIndex({ '_metadata.createdAt': 1 }, { name: 'Search Index' });
+		// logger.info('Trying to create Search Index For user.logs');
+		// mongoose.connection.db.collection('user.logs').createIndex({ '_metadata.createdAt': 1 }, { name: 'Search Index' });
 		logger.info('Trying to create Search Index For group.logs');
 		mongoose.connection.db.collection('group.logs').createIndex({ '_metadata.createdAt': 1 }, { name: 'Search Index' });
 	} catch (err) {
