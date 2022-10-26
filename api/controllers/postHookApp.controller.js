@@ -5,7 +5,7 @@ const findCollection = require('./findCollection');
 const logger = global.logger;
 
 e.postHookLog = function (req, res) {
-	let serviceName = req.swagger.params.srvcid.value;
+	let serviceName = req.params.srvcid;
 	findCollection.findCollectionName(serviceName)
 		.then(function (data) {
 			data = data+'.postHook';
@@ -18,7 +18,7 @@ e.postHookLog = function (req, res) {
 	
 };
 e.postHookLogCount = function (req, res) {
-	let serviceName = req.swagger.params.srvcid.value;
+	let serviceName = req.params.srvcid;
 	findCollection.findCollectionName(serviceName)
 		.then(function (data) {
 			data = data+'.postHook';

@@ -20,9 +20,9 @@ function createIndexes(collection) {
 }
 
 e.create = (req, res) => {
-	let expiry = req.swagger.params.data.value.expiry;
+	let expiry = req.body.data.expiry;
 	if (expiry) expiry = changeToSeconds(expiry);
-	let serviceName = req.swagger.params.data.value.srvc;
+	let serviceName = req.body.data.srvc;
 	return createIndexes(serviceName)
 		.then(() => {
 			if (expiry)
@@ -39,10 +39,10 @@ e.create = (req, res) => {
 };
 
 e.update = (req, res) => {
-	let expiry = req.swagger.params.data.value.expiry;
-	let serviceName = req.swagger.params.data.value.srvc;
-	let oldCollectionName = req.swagger.params.data.value.oldCollectionName;
-	let newCollectionName = req.swagger.params.data.value.newCollectionName;
+	let expiry = req.body.data.expiry;
+	let serviceName = req.body.data.srvc;
+	let oldCollectionName = req.body.data.oldCollectionName;
+	let newCollectionName = req.body.data.newCollectionName;
 	rename(oldCollectionName, newCollectionName)
 		.then(() => {
 			return mongoose.connection.db.createCollection(serviceName + '.audit')
@@ -98,7 +98,7 @@ e.update = (req, res) => {
 };
 
 e.delete = (req, res) => {
-	let serviceName = req.swagger.params.collection.value;
+	let serviceName = req.params.collection;
 	mongoose.connection.db.collection(serviceName + '.audit').drop()
 		.then(out => {
 			logger.debug(out);

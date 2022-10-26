@@ -4,26 +4,26 @@ const requestHelper = require('../helpers/requestHelper');
 
 e.webHookStatus = function(req, res){
 	let path = req.path.endsWith('count') ? '/webHookStatus/count' : '/webHookStatus';
-	let srvcid = req.swagger.params.srvcid.value;
-	let filter = req.swagger.params.filter.value;
+	let srvcid = req.params.srvcid;
+	let filter = req.query.filter;
 	if(filter){
 		filterObject = JSON.parse(filter);
 		filterObject['data.serviceId'] = srvcid;
-		req.swagger.params.filter.originalValue = JSON.stringify(filterObject);
-		req.swagger.params.filter.value = JSON.stringify(filterObject);
+		req.query.filter.origina = JSON.stringify(filterObject);
+		req.query.filter = JSON.stringify(filterObject);
 	}
 	else{
 		filter = {};
 		filter['data.serviceId'] = srvcid;
-		req.swagger.params.filter.originalValue = JSON.stringify(filter);
-		req.swagger.params.filter.value = JSON.stringify(filter);
+		req.query.filter.origina = JSON.stringify(filter);
+		req.query.filter = JSON.stringify(filter);
 	}
-	if(req.swagger.params.id && req.swagger.params.id.value){
-		path+=`/${req.swagger.params.id.value}`;
+	if(req.params.id && req.swagger.params.id){
+		path+=`/${req.params.id}`;
 		delete req.swagger.params.id;
 	}
 	let qs = Object.keys(req.swagger.params).reduce((prev, curr) => {
-		prev[curr] = req.swagger.params[curr].value;
+		prev[curr] = req.params.curr];
 		return prev;
 	}, {});
 	let reqObj = {

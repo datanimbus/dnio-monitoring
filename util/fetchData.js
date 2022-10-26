@@ -40,8 +40,8 @@ e.index = function (req, res, data) {
 	var select = reqParams['select'] ? reqParams.select.split(',') : [];
 	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Select :: ${JSON.stringify(select)}`);
 	
-	var page = reqParams['page'] ? reqParams.page : 1;
-	var count = reqParams['count'] ? reqParams.count : 10;
+	var page = reqParams['page'] ? +reqParams.page : 1;
+	var count = reqParams['count'] ? +reqParams.count : 10;
 	var search = reqParams['search'] ? reqParams.search : null;
 	var skip = count * (page - 1);
 	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Page/Count/Skip :: ${page}/${count}/${skip}`);
@@ -63,7 +63,7 @@ e.index = function (req, res, data) {
 	if (search) {
 		filter['$text'] = { '$search': search };
 	}
-	if (data == 'user.logs' || data == 'group.logs' || data == 'dataService.logs' || !data.endsWith('.logs')) filter = modifyDateFilter(filter, false);
+	if ((data == 'user.logs' || data == 'group.logs' || data == 'dataService.logs' || !data.endsWith('.logs')) && data !== 'sm.audit') filter = modifyDateFilter(filter, false);
 	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Filter :: ${JSON.stringify(filter)}`);
 	let selectObject = {};
 	if (select.length) {
@@ -118,7 +118,7 @@ e.count = function (req, res, data) {
 		filter = _.omit(filter, this.omit);
 	}
 	// filter['_metadata.deleted'] = false;
-	if (data == 'user.logs' || data == 'group.logs' || data == 'dataService.logs' || !data.endsWith('.logs')) filter = modifyDateFilter(filter, false);
+	if ((data == 'user.logs' || data == 'group.logs' || data == 'dataService.logs' || !data.endsWith('.logs')) && data !== 'sm.audit') filter = modifyDateFilter(filter, false);
 	logger.debug(`[${txnId}] Count :: Collection-${colName} :: Filter :: ${JSON.stringify(filter)}`);
 
 	let query = mongoose.connection.db.collection(colName).countDocuments(filter);

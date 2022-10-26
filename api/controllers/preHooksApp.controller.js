@@ -4,7 +4,7 @@ const fetData = require('../../util/fetchData');
 const findCollection = require('./findCollection');
 
 e.preHookLog = function (req, res) {
-	let serviceName = req.swagger.params.srvcid.value;
+	let serviceName = req.params.srvcid;
 	findCollection.findCollectionName(serviceName)
 		.then(function (data) {
 			data = data+'.preHook';
@@ -12,7 +12,7 @@ e.preHookLog = function (req, res) {
 		});
 };
 e.preHookLogCount = function (req, res) {
-	let serviceName = req.swagger.params.srvcid.value;
+	let serviceName = req.params.srvcid;
 	findCollection.findCollectionName(serviceName)
 		.then(function (data) {
 			data = data+'.preHook';

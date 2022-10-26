@@ -13,12 +13,17 @@ produces:
   - application/json
   - text/plain
 paths:
-  /logs:
+  /{app}/logs:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of logs
       operationId: logList
       parameters:
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: authorization
           in: header
           type: string
@@ -52,7 +57,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /logs/count:
+  /{app}/logs/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of logs
@@ -62,6 +67,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -73,7 +83,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  /appCenter/{id}/logs:
+  /{app}/appCenter/{id}/logs:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of logs of  service
@@ -83,6 +93,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -117,7 +132,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /appCenter/{id}/logs/count:
+  /{app}/appCenter/{id}/logs/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of logs 
@@ -127,6 +142,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -143,7 +163,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  /gateway/agent/logs:
+  /{app}/gateway/agent/logs:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of logs of  service
@@ -153,6 +173,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -182,7 +207,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /gateway/agent/logs/count:
+  /{app}/gateway/agent/logs/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of logs 
@@ -192,6 +217,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -203,7 +233,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  /edgeGateway/agent/logs:
+  /{app}/edgeGateway/agent/logs:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of logs of  service
@@ -213,6 +243,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -242,7 +277,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /edgeGateway/agent/logs/count:
+  /{app}/edgeGateway/agent/logs/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of logs 
@@ -252,6 +287,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -273,6 +313,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -293,11 +338,6 @@ paths:
           in: query
           type: string
           description: sort parameter
-        - name: app
-          in: path
-          type: string
-          required: true
-          description: Id of the object to be viewed
       responses:
         '200':
           description: List of the entites
@@ -305,6 +345,27 @@ paths:
           description: Bad parameters
         '404':
           description: No records to list with the given parameter set.
+        '500':
+          description: Internal server error
+    post:
+      description: Store UI Log
+      operationId: agentLogInsert
+      parameters:
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
+        - name: data
+          in: body
+          description: Payload to Load Key Certificate Details a field
+          schema:
+            $ref: '#/definitions/agentLog'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad parameters
         '500':
           description: Internal server error
   /{app}/agent/logs/count:
@@ -483,25 +544,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  /agent/logs:
-    x-swagger-router-controller: controller
-    post:
-      description: Store UI Log
-      operationId: agentLogInsert
-      parameters:
-        - name: data
-          in: body
-          description: Payload to Load Key Certificate Details a field
-          schema:
-            $ref: '#/definitions/agentLog'
-      responses:
-        '200':
-          description: Success
-        '400':
-          description: Bad parameters
-        '500':
-          description: Internal server error
-  /ui/logs:
+  /{app}/ui/logs:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of UI logs
@@ -511,6 +554,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -544,6 +592,11 @@ paths:
       description: Store UI Log
       operationId: uiLogCreate
       parameters:
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: data
           in: body
           description: Payload to Load Key Certificate Details a field
@@ -556,7 +609,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  /ui/logs/count:
+  /{app}/ui/logs/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of UI logs 
@@ -566,6 +619,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -577,7 +635,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  /preHooks:
+  /{app}/preHooks:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of preHooks
@@ -587,6 +645,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -616,7 +679,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /preHooks/count:
+  /{app}/preHooks/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of preHooks
@@ -626,6 +689,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -637,7 +705,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  /mfGen:
+  /{app}/mfGen:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of mfGen
@@ -647,6 +715,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -676,7 +749,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /mfGen/count:
+  /{app}/mfGen/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of mfGen
@@ -686,6 +759,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -697,7 +775,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  /service/{srvcid}/webHookStatus:
+  /{app}/service/{srvcid}/webHookStatus:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of webHookStatus
@@ -707,6 +785,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -741,7 +824,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /service/{srvcid}/webHookStatus/count:
+  /{app}/service/{srvcid}/webHookStatus/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of webHookStatus
@@ -751,6 +834,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: srvcid
           in: path
           type: string
@@ -767,7 +855,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  '/webHookStatus/{id}':
+  /{app}/webHookStatus/{id}:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a webHookStatus
@@ -777,6 +865,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: select
           in: query
           type: string
@@ -795,7 +888,7 @@ paths:
           description: No results to list with the given parameter set.
         '500':
           description: Internal server error        
-  /appCenter/{srvcid}/audit:
+  /{app}/appCenter/{srvcid}/audit:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -805,6 +898,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: srvcid
           in: path
           type: string
@@ -839,7 +937,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /appCenter/{srvcid}/audit/count:
+  /{app}/appCenter/{srvcid}/audit/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -849,6 +947,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -865,7 +968,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error 
-  /appCenter/{srvcid}/audit/purge:
+  /{app}/appCenter/{srvcid}/audit/purge:
     x-swagger-router-controller: controller 
     delete:
       description: audit Purge
@@ -875,6 +978,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: srvcid
           in: path
           type: string
@@ -887,7 +995,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error 
-  /appCenter/{srvcid}/log/purge:
+  /{app}/appCenter/{srvcid}/log/purge:
     x-swagger-router-controller: controller 
     delete:
       description: logs Purge
@@ -897,6 +1005,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: srvcid
           in: path
           type: string
@@ -909,7 +1022,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error 
-  /appCenter/{srvcid}/preHook:
+  /{app}/appCenter/{srvcid}/preHook:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -919,6 +1032,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: srvcid
           in: path
           type: string
@@ -953,7 +1071,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /appCenter/{srvcid}/preHook/count:
+  /{app}/appCenter/{srvcid}/preHook/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -963,6 +1081,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -979,7 +1102,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error  
-  /appCenter/{srvcid}/postHook:
+  /{app}/appCenter/{srvcid}/postHook:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -989,6 +1112,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: srvcid
           in: path
           type: string
@@ -1023,7 +1151,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /appCenter/{srvcid}/postHook/count:
+  /{app}/appCenter/{srvcid}/postHook/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -1033,6 +1161,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -1049,7 +1182,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error 
-  /author/sm/log:
+  /{app}/author/sm/log:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -1059,6 +1192,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -1088,7 +1226,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /author/sm/log/count:
+  /{app}/author/sm/log/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -1098,6 +1236,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -1109,7 +1252,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error  
-  /author/sm/audit:
+  /{app}/author/sm/audit:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -1119,6 +1262,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -1148,7 +1296,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /author/sm/audit/count:
+  /{app}/author/sm/audit/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -1158,6 +1306,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -1169,7 +1322,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  /author/globalSchemaAudit:
+  /{app}/author/globalSchemaAudit:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -1179,6 +1332,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -1208,7 +1366,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /author/globalSchemaAudit/count:
+  /{app}/author/globalSchemaAudit/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -1218,6 +1376,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -1229,7 +1392,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error    
-  /author/user/log:
+  /{app}/author/user/log:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -1239,6 +1402,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -1268,7 +1436,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /author/user/log/count:
+  /{app}/author/user/log/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -1278,6 +1446,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -1289,7 +1462,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error 
-  /author/bot/log:
+  /{app}/author/bot/log:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -1299,6 +1472,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -1328,7 +1506,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /author/bot/log/count:
+  /{app}/author/bot/log/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -1338,6 +1516,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -1349,7 +1532,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  /author/userRoleAudit:
+  /{app}/author/userRoleAudit:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -1359,6 +1542,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -1388,7 +1576,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /author/userRoleAudit/count:
+  /{app}/author/userRoleAudit/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -1398,6 +1586,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -1409,7 +1602,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error  
-  /author/userDomainAudit:
+  /{app}/author/userDomainAudit:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -1419,6 +1612,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -1448,7 +1646,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /author/userDomainAudit/count:
+  /{app}/author/userDomainAudit/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -1458,6 +1656,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -1469,7 +1672,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  /author/userAudit:
+  /{app}/author/userAudit:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -1479,6 +1682,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -1508,7 +1716,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /author/userAudit/count:
+  /{app}/author/userAudit/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -1518,6 +1726,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -1529,7 +1742,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error 
-  /author/userInsight:
+  /{app}/author/userInsight:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -1539,6 +1752,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -1568,7 +1786,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /author/userInsight/count:
+  /{app}/author/userInsight/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -1578,6 +1796,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -1589,7 +1812,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error  
-  /author/groupInsight:
+  /{app}/author/groupInsight:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -1599,6 +1822,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -1628,7 +1856,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /author/groupInsight/count:
+  /{app}/author/groupInsight/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -1638,6 +1866,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -1649,7 +1882,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error 
-  /dataService/log:
+  /{app}/dataService/log:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -1659,6 +1892,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -1688,7 +1926,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /dataService/log/count:
+  /{app}/dataService/log/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -1698,6 +1936,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -1709,7 +1952,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error
-  /author/group/log:
+  /{app}/author/group/log:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -1719,6 +1962,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: page
           in: query
           type: integer
@@ -1748,7 +1996,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /author/group/log/count:
+  /{app}/author/group/log/count:
     x-swagger-router-controller: controller 
     get:
       description: returns the count of audit
@@ -1758,6 +2006,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: filter
           in: query
           type: string
@@ -1769,7 +2022,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error    
-  /author/audit/{txnId}:
+  /{app}/author/audit/{txnId}:
     x-swagger-router-controller: controller
     get:
       description: Retrieve a list of audits
@@ -1779,6 +2032,11 @@ paths:
           in: query
           type: string
           description: Comma seperated fields to be displayed
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: txnId
           in: path
           type: string
@@ -1797,7 +2055,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error
-  /author/{srvcid}/audit/purge:
+  /{app}/author/{srvcid}/audit/purge:
     x-swagger-router-controller: controller 
     delete:
       description: audit Purge
@@ -1807,6 +2065,11 @@ paths:
           in: header
           type: string
           description: The JWT token for req. validation
+        - name: app
+          in: path
+          type: string
+          required: true
+          description: The App of data stack
         - name: srvcid
           in: path
           type: string
@@ -1819,7 +2082,7 @@ paths:
           description: Bad parameters
         '500':
           description: Internal server error 
-  /health/live:
+  /internal/health/live:
     x-swagger-router-controller: controller
     get:
       description: heath 
@@ -1838,7 +2101,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error 
-  /health/ready:
+  /internal/health/ready:
     x-swagger-router-controller: controller
     get:
       description: heath 
@@ -1857,7 +2120,7 @@ paths:
           description: No records to list with the given parameter set.
         '500':
           description: Internal server error 
-  /delete/{collection}:
+  /internal/delete/{collection}:
     x-swagger-router-controller: controller 
     delete:
       description: returns the count of audit

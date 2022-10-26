@@ -51,7 +51,7 @@ let e = {};
 
 e.index = function (req, model) {
 	let reqParams = Object.keys(req.swagger.params).reduce((prev, curr) => {
-		prev[curr] = req.swagger.params[curr].value;
+		prev[curr] = req.params[curr];
 		return prev;
 	}, {});
 	var filter = reqParams['filter'] ? reqParams.filter : {};
@@ -91,7 +91,7 @@ e.index = function (req, model) {
 
 e.count = function (req, model) {
 	let reqParams = Object.keys(req.swagger.params).reduce((prev, curr) => {
-		prev[curr] = req.swagger.params[curr].value;
+		prev[curr] = req.params[curr];
 		return prev;
 	}, {});
 	var filter = reqParams['filter'] ? reqParams.filter : {};
@@ -114,7 +114,7 @@ e.count = function (req, model) {
 
 e.show = function (req, model) {
 	let reqParams = Object.keys(req.swagger.params).reduce((prev, curr) => {
-		prev[curr] = req.swagger.params[curr].value;
+		prev[curr] = req.params[curr];
 		return prev;
 	}, {});
 	var select = reqParams['select'] ? reqParams.select.split(',') : []; //Comma seprated fileds list

@@ -1,12 +1,17 @@
-FROM node:12-alpine
+FROM node:fermium-alpine
 
+RUN apk update
+RUN apk upgrade
 RUN set -ex; apk add --no-cache --virtual .fetch-deps curl tar git ;
 
 WORKDIR /app
 
 COPY package.json /app
 
+RUN npm install -g npm
 RUN npm install --production
+RUN npm audit fix
+RUN rm -rf /usr/local/lib/node_modules/npm/node_modules/node-gyp/test
 
 COPY api /app/api
 COPY app.js /app
