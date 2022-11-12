@@ -59,83 +59,88 @@ client.on('close', function () {
 	const calcSeconds = 24 * 60 * 60 * config.API_LOGS_TTL_DAYS;
 	const calcSecondsFaas = 24 * 60 * 60 * config.FAAS_LOGS_TTL_DAYS;
 	logger.info('TTL for logs is set to :', calcSeconds);
+	let indexObject = {
+		key: { '_metadata.createdAt': 1 },
+		options: { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' }
+	};
 	try {
-		await mongoose.connection.db.collection('dataService.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
+		await config.indexUtil(mongoose, 'dataService.logs', indexObject);
 	} catch (err) {
 		logger.error('Error while creating TTL index for dataService.logs');
-		logger.error(err);
+		logger.error(err.message);
 	}
 	try {
-		await mongoose.connection.db.collection('pm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
+		await config.indexUtil(mongoose, 'pm.logs', indexObject);
 	} catch (err) {
 		logger.error('Error while creating TTL index for pm.logs');
-		logger.error(err);
+		logger.error(err.message);
 	}
 	try {
-		await mongoose.connection.db.collection('sec.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
+		await config.indexUtil(mongoose, 'sec.logs', indexObject);
 	} catch (err) {
 		logger.error('Error while creating TTL index for sec.logs');
-		logger.error(err);
+		logger.error(err.message);
 	}
 	try {
-		await mongoose.connection.db.collection('gw.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
+		await config.indexUtil(mongoose, 'gw.logs', indexObject);
 	} catch (err) {
 		logger.error('Error while creating TTL index for gw.logs');
-		logger.error(err);
+		logger.error(err.message);
 	}
 	try {
-		await mongoose.connection.db.collection('dm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
+		await config.indexUtil(mongoose, 'dm.logs', indexObject);
 	} catch (err) {
 		logger.error('Error while creating TTL index for dm.logs');
-		logger.error(err);
+		logger.error(err.message);
 	}
 	try {
-		await mongoose.connection.db.collection('mon.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
+		await config.indexUtil(mongoose, 'mon.logs', indexObject);
 	} catch (err) {
 		logger.error('Error while creating TTL index for mon.logs');
-		logger.error(err);
+		logger.error(err.message);
 	}
 	try {
-		await mongoose.connection.db.collection('sm.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
+		await config.indexUtil(mongoose, 'sm.logs', indexObject);
 	} catch (err) {
 		logger.error('Error while creating TTL index for sm.logs');
-		logger.error(err);
+		logger.error(err.message);
 	}
 	try {
-		await mongoose.connection.db.collection('user.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
+		await config.indexUtil(mongoose, 'user.logs', indexObject);
 	} catch (err) {
 		logger.error('Error while creating TTL index for user.logs');
-		logger.error(err);
+		logger.error(err.message);
 	}
 	try {
-		await mongoose.connection.db.collection('wf.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
+		await config.indexUtil(mongoose, 'wf.logs', indexObject);
 	} catch (err) {
 		logger.error('Error while creating TTL index for wf.logs');
-		logger.error(err);
+		logger.error(err.message);
 	}
 	try {
-		await mongoose.connection.db.collection('ne.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
+		await config.indexUtil(mongoose, 'ne.logs', indexObject);
 	} catch (err) {
 		logger.error('Error while creating TTL index for ne.logs');
-		logger.error(err);
+		logger.error(err.message);
 	}
 	try {
-		await mongoose.connection.db.collection('event.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
+		await config.indexUtil(mongoose, 'event.logs', indexObject);
 	} catch (err) {
 		logger.error('Error while creating TTL index for event.logs');
-		logger.error(err);
+		logger.error(err.message);
 	}
 	try {
-		await mongoose.connection.db.collection('deploymentManager.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSeconds, name: 'AUTO_EXPIRE' });
+		await config.indexUtil(mongoose, 'deploymentManager.logs', indexObject);
 	} catch (err) {
 		logger.error('Error while creating TTL index for deploymentManager.logs');
-		logger.error(err);
+		logger.error(err.message);
 	}
 	try {
-		await mongoose.connection.db.collection('faas.console.logs').createIndex({ '_metadata.createdAt': 1 }, { expireAfterSeconds: calcSecondsFaas, name: 'AUTO_EXPIRE' });
+		indexObject.options.expireAfterSeconds = calcSecondsFaas;
+		await config.indexUtil(mongoose, 'faas.console.logs', indexObject);
 	} catch (err) {
 		logger.error('Error while creating TTL index for faas.console.logs');
-		logger.error(err);
+		logger.error(err.message);
 	}
 })();
 
@@ -146,7 +151,7 @@ function dataServiceLogger() {
 	var subscription = client.subscribe(config.queueNames.dataService, 'data.service', opts);
 	subscription.on('message', function (_body) {
 		let bodyObj = JSON.parse(_body.getData());
-		logger.debug(`Message from queue :: ${config.queueNames.dataService} :: ${JSON.stringify(bodyObj)}`);
+		logger.trace(`Message from queue :: ${config.queueNames.dataService} :: ${JSON.stringify(bodyObj)}`);
 		// let colName = bodyObj.collectionName;
 		let colName = 'dataService.logs';
 		const payload = bodyObj.data;
@@ -181,7 +186,7 @@ function systemServiceLogger() {
 	var subscription = client.subscribe(config.queueNames.systemService, 'system.service', opts);
 	subscription.on('message', function (_body) {
 		let bodyObj = JSON.parse(_body.getData());
-		logger.debug(`Message from queue :: ${config.queueNames.systemService} :: ${JSON.stringify(bodyObj)}`);
+		logger.trace(`Message from queue :: ${config.queueNames.systemService} :: ${JSON.stringify(bodyObj)}`);
 		if (bodyObj.collectionName && bodyObj.data) {
 			fixMetaData(bodyObj.data);
 			let mongoDBColl = mongoose.connection.db.collection(bodyObj.collectionName);
@@ -197,7 +202,7 @@ function prehookCreate() {
 	var subscription = client.subscribe(config.queueNames.prehookCreate, 'prehook.create', opts);
 	subscription.on('message', function (_body) {
 		let bodyObj = JSON.parse(_body.getData());
-		logger.debug(`Message from queue :: ${config.queueNames.prehookCreate} :: ${JSON.stringify(bodyObj)}`);
+		logger.trace(`Message from queue :: ${config.queueNames.prehookCreate} :: ${JSON.stringify(bodyObj)}`);
 		// let colName = bodyObj.colName;
 		let colName = 'dataService.logs';
 		fixPreHookPayload(bodyObj);
@@ -217,7 +222,7 @@ function audit() {
 	var subscription = client.subscribe(config.queueNames.auditQueue, 'audit.create', opts);
 	subscription.on('message', function (_body) {
 		let bodyObj = JSON.parse(_body.getData());
-		logger.debug(`Message from queue :: ${config.queueNames.auditQueue} :: ${JSON.stringify(bodyObj)}`);
+		logger.trace(`Message from queue :: ${config.queueNames.auditQueue} :: ${JSON.stringify(bodyObj)}`);
 		bodyObj.timeStamp = new Date();
 		fixMetaData(bodyObj);
 		let colName = bodyObj.colName;
@@ -234,14 +239,19 @@ function logEvents() {
 	opts.setDurableName('event-logs');
 	var subscription = client.subscribe(config.queueNames.logEvents, 'event.logs', opts);
 	let mongoDBColl = mongoose.connection.db.collection('event.logs');
+	let indexObject = {
+		key: { '_metadata.createdAt': 1, 'scheduleTime': 1, 'data.eventId': 1, 'status': 1, 'data.source': 1 },
+		options: { name: 'EVENT_LOG_INDEX' }
+	};
 	try {
-		mongoDBColl.createIndex({ '_metadata.createdAt': 1, 'scheduleTime': 1, 'data.eventId': 1, 'status': 1, 'data.source': 1 });
+		config.indexUtil(mongoose, 'event.logs', indexObject);
 	} catch (e) {
-		logger.error(e);
+		logger.error('Error creating EVENT_LOG_INDEX for event.log');
+		logger.error(e.message);
 	}
 	subscription.on('message', function (_body) {
 		let bodyObj = JSON.parse(_body.getData());
-		logger.debug(`Message from queue :: ${config.queueNames.logEvents} :: ${JSON.stringify(bodyObj)}`);
+		logger.trace(`Message from queue :: ${config.queueNames.logEvents} :: ${JSON.stringify(bodyObj)}`);
 		if (bodyObj.scheduleTime) {
 			bodyObj.scheduleTime = new Date(bodyObj.scheduleTime);
 		}
@@ -262,7 +272,7 @@ function posthookCreate() {
 	var subscription = client.subscribe(config.queueNames.posthookCreate, 'posthook.create', opts);
 	subscription.on('message', function (_body) {
 		let bodyObj = JSON.parse(_body.getData());
-		logger.debug(`Message from queue :: ${config.queueNames.posthookCreate} :: ${JSON.stringify(bodyObj)}`);
+		logger.trace(`Message from queue :: ${config.queueNames.posthookCreate} :: ${JSON.stringify(bodyObj)}`);
 		// let colName = bodyObj.colName;
 		let colName = 'dataService.logs';
 		fixPostHookPayload(bodyObj);
@@ -284,7 +294,7 @@ function posthookUpdate() {
 		let bodyObj = JSON.parse(_body.getData());
 		fixPostHookPayload(bodyObj);
 		fixMetaData(bodyObj);
-		logger.debug(`Message from queue :: ${config.queueNames.posthookUpdate} :: ${JSON.stringify(bodyObj)}`);
+		logger.trace(`Message from queue :: ${config.queueNames.posthookUpdate} :: ${JSON.stringify(bodyObj)}`);
 		// let colName = bodyObj.colName;
 		let colName = 'dataService.logs';
 		if (bodyObj) {
@@ -300,7 +310,7 @@ function auditRemove() {
 	var subscription = client.subscribe(config.queueNames.auditQueueRemove, 'audit.remove', opts);
 	subscription.on('message', function (_body) {
 		let bodyObj = JSON.parse(_body.getData());
-		logger.debug(`Message from queue :: ${config.queueNames.auditQueueRemove} :: ${JSON.stringify(bodyObj)}`);
+		logger.trace(`Message from queue :: ${config.queueNames.auditQueueRemove} :: ${JSON.stringify(bodyObj)}`);
 		let colName = bodyObj.colName;
 		if (colName) {
 			let mongoDBColl = mongoose.connection.db.collection(colName);
@@ -323,7 +333,7 @@ function interactionsLogger() {
 	subscription.on('message', function (_body) {
 		let bodyObj = JSON.parse(_body.getData());
 		fixMetaData(bodyObj);
-		logger.debug(`Message from queue :: ${config.queueNames.interactionLogs} :: ${JSON.stringify(bodyObj)}`);
+		logger.trace(`Message from queue :: ${config.queueNames.interactionLogs} :: ${JSON.stringify(bodyObj)}`);
 		if (bodyObj && bodyObj.app) {
 			let mongoDBColl = mongoose.connection.db.collection(bodyObj.app + '.interaction.logs');
 			mongoDBColl.insert(bodyObj);
@@ -342,7 +352,7 @@ function userInsight() {
 		let bodyObj = JSON.parse(_body.getData());
 		bodyObj.timestamp = new Date();
 		fixMetaData(bodyObj);
-		logger.debug(`Message from queue :: ${config.queueNames.userInsight} :: ${JSON.stringify(bodyObj)}`);
+		logger.trace(`Message from queue :: ${config.queueNames.userInsight} :: ${JSON.stringify(bodyObj)}`);
 		if (bodyObj) {
 			let mongoDBColl = mongoose.connection.db.collection('user.logs');
 			mongoDBColl.insert(bodyObj);
@@ -359,7 +369,7 @@ function groupInsight() {
 		let bodyObj = JSON.parse(_body.getData());
 		bodyObj.timestamp = new Date();
 		fixMetaData(bodyObj);
-		logger.debug(`Message from queue :: ${config.queueNames.groupInsight} :: ${JSON.stringify(bodyObj)}`);
+		logger.trace(`Message from queue :: ${config.queueNames.groupInsight} :: ${JSON.stringify(bodyObj)}`);
 		if (bodyObj) {
 			let mongoDBColl = mongoose.connection.db.collection('group.logs');
 			mongoDBColl.insert(bodyObj);
@@ -379,6 +389,10 @@ function agentLogger() {
 	let collectionName = null;
 	let promise = [];
 	var subscription = client.subscribe(config.queueNames.agentLogs, opts);
+	let indexObject = {
+		key: { 'timeStamp': 1 },
+		options: { expireAfterSeconds: config.agentLogsttl, name: 'AUTO_EXPIRE' }
+	};
 	subscription.on('message', function (_body) {
 		logger.debug('Message consumed from agentLogs ' + _body);
 		let bodyObj = JSON.parse(_body.getData());
@@ -391,7 +405,7 @@ function agentLogger() {
 			msg = message[4].replace('\n', '');
 			body = makeBody(body, values, msg, bodyObj, rawData);
 			collectionName = getCollectionName(body);
-			logger.debug(`Message from queue :: ${config.queueNames.agentLogs} :: ${JSON.stringify(body)}`);
+			logger.trace(`Message from queue :: ${config.queueNames.agentLogs} :: ${JSON.stringify(body)}`);
 
 			if (body && collectionName) {
 				delete body._id;
@@ -400,7 +414,7 @@ function agentLogger() {
 				body.timeStamp = new Date(body.timeStamp);
 				body._metadata.deleted = false;
 				let mongoDBColl = mongoose.connection.db.collection(collectionName);
-				promise.push(mongoose.connection.db.collection(collectionName).createIndex({ 'timeStamp': 1 }, { expireAfterSeconds: config, name: 'AUTO_EXPIRE'.agentLogsttl }));
+				promise.push(config.indexUtil(mongoose, collectionName, indexObject));
 				promise.push(mongoDBColl.insert(body));
 			}
 		});
@@ -415,9 +429,15 @@ function logFunctionsConsole() {
 	opts.setDurableName('faas-console-logs');
 	var subscription = client.subscribe(config.queueNames.faasConsoleLogs, opts);
 	let mongoDBColl = mongoose.connection.db.collection('faas.console.logs');
+	let indexObject = {
+		key: { '_metadata.createdAt': 1, 'context.user': 1, 'context.app': 1, 'context.faasId': 1, 'startTime': 1, 'level.levelStr': 1 },
+		options: {
+			name: 'FAAS_LOGS_INDEX'
+		}
+	};
 	subscription.on('message', function (_body) {
 		const data = _body.getData();
-		logger.debug(`Message from queue :: ${config.queueNames.faasConsoleLogs} :: ${data}`);
+		logger.trace(`Message from queue :: ${config.queueNames.faasConsoleLogs} :: ${data}`);
 		let bodyObj = JSON.parse(data);
 		if (bodyObj) {
 			if (bodyObj.startTime) {
@@ -428,7 +448,7 @@ function logFunctionsConsole() {
 		}
 	});
 	try {
-		mongoDBColl.createIndex({ '_metadata.createdAt': 1, 'context.user': 1, 'context.app': 1, 'context.faasId': 1, 'startTime': 1, 'level.levelStr': 1 });
+		config.indexUtil(mongoose, 'faas.console.logs', indexObject);
 	} catch (e) {
 		logger.error(e);
 	}

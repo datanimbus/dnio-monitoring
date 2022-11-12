@@ -59,10 +59,13 @@ app.use(express.urlencoded({ extended: true }));
 	try {
 		await mongoose.connect(mongoLogsDB, conf.mongoOptionsForLogDb);
 		try {
-			const val = await mongoose.connection.db.collection('dataService.logs').createIndex({ app: 1, logType: 1, operation: 1, serviceId: 1, txnId: 1, timestamp: 1 });
-			logger.debug('Created Index for dataService.logs', val);
+			let indexObject = {
+				key: { app: 1, logType: 1, operation: 1, serviceId: 1, txnId: 1, timestamp: 1 },
+				options: { name: 'DS_LOGS_INDEX' }
+			};
+			await conf.indexUtil(mongoose, 'dataService.logs', indexObject);
 		} catch (err) {
-			logger.error(err);
+			logger.error(err.message);
 		}
 		global.client = clients.init(
 			process.env.STREAMING_CHANNEL || 'datastack-cluster',

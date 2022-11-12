@@ -1,6 +1,7 @@
 let e = {};
 let mongoose = require('mongoose');
 const logger = global.logger;
+const config = require('../../config/config');
 
 function createIndexes(collection) {
 	logger.debug('Creating default Indexes');
@@ -10,8 +11,11 @@ function createIndexes(collection) {
 		return mongoose.connection.db.createCollection(`${collection}.${_c}`)
 			.finally(() => {
 				let indexPromises = keys.map(_k => {
-					return mongoose.connection.db.collection(`${collection}.${_c}`)
-						.createIndex({ [_k]: 1 }, { name: 'Search Index' }).catch();
+					return config.indexUtil(mongoose, `${collection}.${_c}`, {
+						key: { [_k]: 1 },
+						options: { name: 'Search Index' }
+					});
+					// return mongoose.connection.db.collection(`${collection}.${_c}`).createIndex({ [_k]: 1 }, { name: 'Search Index' }).catch();
 				});
 				return Promise.all(indexPromises);
 			});
