@@ -71,6 +71,10 @@ async function indexUtil(mongoose, collectionName, indexObject) {
 		logger.debug(`IndexUtil :: ${collectionName} :: Matching indexes :: ${indexNames.join(',')}`);
 		let indexesToDrop = indexNames.filter(i => i != indexObject.options.name);
 		logger.debug(`IndexUtil :: ${collectionName} :: Indexes to drop :: ${indexesToDrop.join(',') || 'Nil'}`);
+		if (indexesToDrop < 1) {
+			logger.debug(`IndexUtil :: ${collectionName} :: ${indexObject.options.name} already exists`);
+			return;
+		}
 		await dropIndexes(mongoose, collectionName, indexesToDrop);
 		const val = await mongoose.connection.db.collection(collectionName).createIndex(indexObject.key, indexObject.options);
 		logger.debug(`IndexUtil :: Created Index for ${collectionName} :: ${val}`);
