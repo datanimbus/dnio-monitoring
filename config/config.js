@@ -42,6 +42,48 @@ function mongoLogUrl() {
 	return mongoUrl;
 }
 
+async function fetchIndexes(mongoose, collectionName, indexKeys) {
+	let indexes = await mongoose.connection.db.collection(collectionName).indexes();
+	const indexObjectKeys = Object.keys(indexKeys);
+	let indexNames = [];
+	indexes.forEach(index => {
+		if (Object.keys(index.key).length != indexObjectKeys.length) return;
+		let matches = true;
+		indexObjectKeys.forEach(key => {
+			matches = index.key[key] == indexKeys[key] && matches;
+		});
+		if (matches) indexNames.push(index.name);
+	});
+	return indexNames;
+}
+
+async function dropIndexes(mongoose, collectionName, indexes) {
+	return indexes.reduce(async (p, c) => {
+		await p;
+		return await mongoose.connection.db.collection(collectionName).dropIndex(c);
+	}, Promise.resolve());
+}
+
+async function indexUtil(mongoose, collectionName, indexObject) {
+	logger.debug(`IndexUtil :: ${collectionName} :: ${indexObject.options.name}`);
+	try {
+		let indexNames = await fetchIndexes(mongoose, collectionName, indexObject.key);
+		logger.debug(`IndexUtil :: ${collectionName} :: Matching indexes :: ${indexNames.join(',')}`);
+		let indexesToDrop = indexNames.filter(i => i != indexObject.options.name);
+		logger.debug(`IndexUtil :: ${collectionName} :: Indexes to drop :: ${indexesToDrop.join(',') || 'Nil'}`);
+		if (indexesToDrop < 1) {
+			logger.debug(`IndexUtil :: ${collectionName} :: ${indexObject.options.name} already exists`);
+			return;
+		}
+		await dropIndexes(mongoose, collectionName, indexesToDrop);
+		const val = await mongoose.connection.db.collection(collectionName).createIndex(indexObject.key, indexObject.options);
+		logger.debug(`IndexUtil :: Created Index for ${collectionName} :: ${val}`);
+	} catch (e) {
+		logger.error(`Error creating index for ${collectionName} :: ${indexObject.options.name}`);
+		logger.error(e.message);
+	}
+}
+
 module.exports = {
 	baseUrlSM: get('sm') + '/sm',
 	mongoUrl: mongoUrl(),
@@ -81,17 +123,19 @@ module.exports = {
 	refreshSecret: 'iouhzsueiryozayvrhisjhtojgbaburaoganpatraoaptehjgcjgccjagaurnautbabubhaiyasdcsddscds',
 	isK8sEnv: isK8sEnv,
 	mongoOptions: {
-		reconnectTries: process.env.MONGO_RECONN_TRIES,
-		reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
+		// reconnectTries: process.env.MONGO_RECONN_TRIES,
+		// reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
 		useNewUrlParser: true
 	},
 	mongoOptionsForLogDb: {
-		reconnectTries: process.env.MONGO_RECONN_TRIES,
-		reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
+		// reconnectTries: process.env.MONGO_RECONN_TRIES,
+		// reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
 		dbName: process.env.MONGO_LOGS_DBNAME || 'datastackLogs',
 		useNewUrlParser: true
 	},
 	API_LOGS_TTL_DAYS: process.env.API_LOGS_TTL_DAYS ? parseInt(process.env.API_LOGS_TTL_DAYS, 10) : 30,
 	FAAS_LOGS_TTL_DAYS: process.env.FAAS_LOGS_TTL_DAYS ? parseInt(process.env.FAAS_LOGS_TTL_DAYS, 10) : 30,
-	TOKEN_SECRET: process.env.TOKEN_SECRET || 'u?5k167v13w5fhjhuiweuyqi67621gqwdjavnbcvadjhgqyuqagsduyqtw87e187etqiasjdbabnvczmxcnkzn'
+	TOKEN_SECRET: process.env.TOKEN_SECRET || 'u?5k167v13w5fhjhuiweuyqi67621gqwdjavnbcvadjhgqyuqagsduyqtw87e187etqiasjdbabnvczmxcnkzn',
+	RBAC_JWT_KEY: process.env.RBAC_JWT_KEY || 'u?5k167v13w5fhjhuiweuyqi67621gqwdjavnbcvadjhgqyuqagsduyqtw87e187etqiasjdbabnvczmxcnkzn',
+	indexUtil
 };

@@ -1,16 +1,26 @@
 const mongoose = require('mongoose');
+const conf = require('../../config/config');
 
 let e = {};
 const logger = global.logger;
 
 const fetData = require('../../util/fetchData');
 
-try {
-	mongoose.connection.db.collection('user.logs').createIndex({ '_metadata.createdAt': 1 });
-	mongoose.connection.db.collection('group.logs').createIndex({ '_metadata.createdAt': 1 });
-} catch (err) {
-	logger.error(err);
-}
+(async () => {
+	try {
+		// logger.info('Trying to create Search Index For user.logs');
+		// mongoose.connection.db.collection('user.logs').createIndex({ '_metadata.createdAt': 1 }, { name: 'Search Index' });
+		logger.info('Trying to create Search Index For group.logs');
+		await conf.indexUtil(mongoose, 'groups.logs', {
+			key: { '_metadata.createdAt': 1 },
+			options: {
+				name: 'Search Index'
+			}
+		});
+	} catch (err) {
+		logger.error(err);
+	}
+})();
 
 
 e.userInsight = function (req, res) {

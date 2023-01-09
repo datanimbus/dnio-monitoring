@@ -1,9 +1,10 @@
 {
   "name": "ds-monitoring",
-  "version": "2.3.0",
+  "version": "2.6.3",
   "description": "",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "lint": "./node_modules/.bin/eslint app.js api/ config/ util/ --fix",
     "test": "nyc --reporter=html --reporter=json-summary mocha"
   },
@@ -16,23 +17,23 @@
   "homepage": "https://bitbucket.org/appveen/ds-monitoring#readme",
   "dependencies": {
     "@appveen/data.stack-utils": "^1.0.19",
-    "@appveen/ds-auth-cache": "^1.0.2",
-    "@appveen/swagger-mongoose-crud": "1.2.9",
-    "@appveen/utils": "^2.1.6",
+    "@appveen/ds-auth-cache": "^1.0.7",
+    "@appveen/swagger-mongoose-crud": "^2.0.1",
+    "@appveen/utils": "^2.1.13",
     "bluebird": "^3.5.0",
-    "express": "^4.17.3",
+    "express": "^4.18.1",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.20",
-    "log4js": "^6.4.4",
-    "mongodb": "^3.7.3",
-    "mongoose": "^5.13.14",
+    "log4js": "^6.5.2",
+    "mongodb": "^4.9.0",
+    "mongoose": "^6.5.2",
     "request": "^2.88.2",
     "url": "^0.11.0"
   },
   "devDependencies": {
-    "eslint": "^8.12.0",
-    "husky": "^7.0.4",
-    "mocha": "^9.2.2",
+    "eslint": "^8.22.0",
+    "husky": "^8.0.1",
+    "mocha": "^10.0.0",
     "nyc": "^15.1.0"
   }
 }
