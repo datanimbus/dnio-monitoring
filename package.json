@@ -16,19 +16,19 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/appveen/ds-monitoring#readme",
   "dependencies": {
-    "@appveen/data.stack-utils": "^1.0.19",
-    "@appveen/ds-auth-cache": "^1.0.7",
+    "@appveen/data.stack-utils": "^1.0.22",
+    "@appveen/ds-auth-cache": "^1.0.8",
     "@appveen/swagger-mongoose-crud": "^2.0.1",
     "@appveen/utils": "^2.1.13",
-    "bluebird": "^3.5.0",
-    "express": "^4.18.1",
+    "bluebird": "^3.7.2",
+    "express": "^4.18.2",
     "js-yaml": "^4.1.0",
-    "lodash": "^4.17.20",
-    "log4js": "^6.5.2",
+    "lodash": "^4.17.21",
+    "log4js": "^6.9.1",
     "mongodb": "^4.9.0",
     "mongoose": "^6.5.2",
     "request": "^2.88.2",
-    "url": "^0.11.0"
+    "url": "^0.11.1"
   },
   "devDependencies": {
     "eslint": "^8.22.0",
