@@ -63,6 +63,12 @@ e.index = function (req, res, data) {
 	if (search) {
 		filter['$text'] = { '$search': search };
 	}
+	if (filter['data.app'] && reqParams.app && filter['data.app'] !== reqParams.app) {
+		return res.status(400).json({ message: "App names in filter and Url do not match."});
+	}
+	if (!filter['data.app']) {
+		filter['data.app'] = reqParams.app;
+	}
 	if ((data == 'user.logs' || data == 'group.logs' || data == 'dataService.logs' || !data.endsWith('.logs')) && data !== 'sm.audit') filter = modifyDateFilter(filter, false);
 	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Filter :: ${JSON.stringify(filter)}`);
 	let selectObject = {};

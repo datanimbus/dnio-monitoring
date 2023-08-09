@@ -88,24 +88,8 @@ app.use(express.urlencoded({ extended: true }));
 		client.on('connected', () => { logger.info('datastackConfig connected'); });
 		client.on('reconnectFailed', () => { logger.error('-------------------------datastackConfig failed to reconnect-------------------------'); });
 
-		app.use('/mon', require('./api/controllers/controller'));
-
-		const port = process.env.PORT || 10005;
-		const server = app.listen(port, (err) => {
-			if (!err) {
-				logger.info('Server started on port ' + port);
-				app.use((err, req, res, next) => {
-					if (err) {
-						if (!res.headersSent)
-							return res.status(500).json({ message: err.message });
-						return;
-					}
-					next();
-				});
-			} else
-				logger.error(err);
-		});
-		server.setTimeout(parseInt(timeOut) * 1000);
+		await require('./util/init')()
+		
 	} catch (err) {
 		logger.error('Cannot Connect to DB');
 		logger.error(err);
@@ -122,5 +106,41 @@ mongoose.connection.on('reconnectFailed', () => { logger.error('----------------
 const logMiddleware = utils.logMiddleware.getLogMiddleware(logger);
 app.use(logMiddleware);
 
+app.use('/mon', require('./util/auth'), require('./api/controllers/controller'));
 
+app.use(function (error, req, res, next) {
+	if (error) {
+		logger.error('Global Error handler :: ', error);
+		if (!res.headersSent) {
+			let statusCode = error.statusCode || 500;
+			if (error.message.includes('APP_NAME_ERROR')) {
+				statusCode = 400;
+			}
+			res.status(statusCode).json({
+				message: error.message
+			});
+		}
+	} else {
+		next();
+	}
+});
+
+
+
+const port = process.env.PORT || 10005;
+const server = app.listen(port, (err) => {
+	if (!err) {
+		logger.info('Server started on port ' + port);
+		app.use((err, req, res, next) => {
+			if (err) {
+				if (!res.headersSent)
+					return res.status(500).json({ message: err.message });
+				return;
+			}
+			next();
+		});
+	} else
+		logger.error(err);
+});
+server.setTimeout(parseInt(timeOut) * 1000);
 
