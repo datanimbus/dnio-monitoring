@@ -108,7 +108,16 @@ router.use((req, res, next) => {
 		}
 
 		if (req.locals.app && params && req.locals.app !== params['{app}']) {
-			return next(new Error("App in url does not match with one in either body or filter."));
+			try {
+				let app =  req.locals.app["$in"];
+				if (!app.includes(params['{app}'])) {
+					return next(new Error("App in url does not match with one in either body or filter."));
+				}
+				req.locals.app = params['{app}'];
+			} catch(err) {
+				logger.error(err);
+				return next(new Error("App in url does not match with one in either body or filter."));
+			}
 		}
 
 		if (!req.locals.app && params && params['{app}']) req.locals.app = params['{app}'];
