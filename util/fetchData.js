@@ -24,7 +24,7 @@ function modifyDateFilter(filter, dateFlag) {
 	return dateFlag ? new Date(filter) : filter;
 }
 
-e.index = function (req, res, data) {
+e.index = async function (req, res, data) {
 	let txnId = req.get('TxnId');
 	var colName = data;
 	var reqParams = params.map(req);
@@ -37,15 +37,12 @@ e.index = function (req, res, data) {
 	reqParams['sort'] ? reqParams.sort.split(',').map(el => el.split('-').length > 1 ? sort[el.split('-')[1]] = -1 : sort[el.split('-')[0]] = 1) : null;
 	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Sort :: ${JSON.stringify(sort)}`);
 	
-	var select = reqParams['select'] ? reqParams.select.split(',') : [];
-	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Select :: ${JSON.stringify(select)}`);
-	
 	var page = reqParams['page'] ? +reqParams.page : 1;
 	var count = reqParams['count'] ? +reqParams.count : 10;
 	var search = reqParams['search'] ? reqParams.search : null;
 	var skip = count * (page - 1);
 	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Page/Count/Skip :: ${page}/${count}/${skip}`);
-	var query = null;
+
 	if (typeof filter === 'string') {
 		try {
 			filter = JSON.parse(filter);
@@ -59,7 +56,6 @@ e.index = function (req, res, data) {
 	if (filter.omit) {
 		filter = _.omit(filter, this.omit);
 	}
-	// filter['_metadata.deleted'] = false;
 	if (search) {
 		filter['$text'] = { '$search': search };
 	}
@@ -71,6 +67,9 @@ e.index = function (req, res, data) {
 	}
 	if ((data == 'user.logs' || data == 'group.logs' || data == 'dataService.logs' || !data.endsWith('.logs')) && data !== 'sm.audit') filter = modifyDateFilter(filter, false);
 	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Filter :: ${JSON.stringify(filter)}`);
+
+	var select = reqParams['select'] ? reqParams.select.split(',') : [];
+	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Select :: ${JSON.stringify(select)}`);
 	let selectObject = {};
 	if (select.length) {
 		for (let i = 0; i < select.length; i++) {
@@ -84,6 +83,16 @@ e.index = function (req, res, data) {
 		}
 	}
 	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Select :: ${JSON.stringify(selectObject)}`);
+
+	if (data == 'sm.audit') {
+		let service = await global.mongoDBConfig.collection('services').findOne({ _id: filter['data._id'], app: reqParams.app });
+
+		if (!service) {
+			return res.status(404).json({ "message": "Service is not present in the app."})
+		}
+	}
+	
+	var query = null;
 	if (count == -1) {
 		query = mongoose.connection.db.collection(colName).find(filter).project(selectObject).sort(sort).toArray();
 	}
@@ -103,7 +112,7 @@ e.index = function (req, res, data) {
 		});
 };
 
-e.count = function (req, res, data) {
+e.count = async function (req, res, data) {
 	let txnId = req.get('TxnId');
 	var colName = data;
 	var reqParams = params.map(req);
@@ -126,6 +135,14 @@ e.count = function (req, res, data) {
 	// filter['_metadata.deleted'] = false;
 	if ((data == 'user.logs' || data == 'group.logs' || data == 'dataService.logs' || !data.endsWith('.logs')) && data !== 'sm.audit') filter = modifyDateFilter(filter, false);
 	logger.debug(`[${txnId}] Count :: Collection-${colName} :: Filter :: ${JSON.stringify(filter)}`);
+
+	if (data == 'sm.audit') {
+		let service = await global.mongoDBConfig.collection('services').findOne({ _id: filter['data._id'], app: reqParams.app });
+
+		if (!service) {
+			return res.status(404).json({ "message": "Service is not present in the app."})
+		}
+	}
 
 	let query = mongoose.connection.db.collection(colName).countDocuments(filter);
 
