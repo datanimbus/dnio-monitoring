@@ -35,7 +35,7 @@ e.smAuditCount = function (req, res) {
 e.authorAuditPurge = function (req, res) {
 	let colName = 'sm.audit';
 	const serviceId = req.params.srvcid;
-	mongoose.connection.db.collection(colName).remove({ 'data._id': serviceId }).then(() => {
+	mongoose.connection.db.collection(colName).deleteMany({ 'data._id': serviceId }).then(() => {
 		res.status(200).json({});
 	}).catch(err => {
 		logger.error(err.message);
