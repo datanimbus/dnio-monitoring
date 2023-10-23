@@ -19,7 +19,7 @@
     "@appveen/data.stack-utils": "^1.0.22",
     "@appveen/ds-auth-cache": "^1.0.8",
     "@appveen/swagger-mongoose-crud": "^2.0.1",
-    "@appveen/utils": "^2.1.13",
+    "@appveen/utils": "^2.2.1",
     "bluebird": "^3.7.2",
     "express": "^4.18.2",
     "js-yaml": "^4.1.0",
