@@ -1,4 +1,4 @@
-const request = require('request');
+const request = require('../../util/got-request-wrapper');
 let e = {};
 
 e.sendRequest = function (reqObj) {
@@ -19,7 +19,7 @@ e.sendRequest = function (reqObj) {
 			} else if (!res) {
 				reject(new Error('Service Down'));
 			} else {
-				resolve({status: res.statusCode, body});
+				resolve({ status: res.statusCode, body });
 			}
 		});
 	});

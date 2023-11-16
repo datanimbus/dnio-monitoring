@@ -1,4 +1,4 @@
-const request = require('request');
+const request = require('./got-request-wrapper');
 let config = require('../config/config');
 
 const logger = global.logger;
