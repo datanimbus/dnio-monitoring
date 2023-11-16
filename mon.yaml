@@ -34,13 +34,13 @@ spec:
             - containerPort: 10005
           livenessProbe:
             httpGet:
-              path: /mon/health/live
+              path: /mon/internal/health/live
               port: 10005
             initialDelaySeconds: 10
             periodSeconds: 10
           readinessProbe:
             httpGet:
-              path: /mon/health/ready
+              path: /mon/internal/health/ready
               port: 10005
             initialDelaySeconds: 10
             periodSeconds: 10
