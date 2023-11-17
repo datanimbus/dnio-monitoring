@@ -1,3 +1,5 @@
+const config = require('../../config/config');
+
 var definition = {
 	'_id': {
 		'type': 'String'
@@ -22,7 +24,7 @@ var definition = {
 	'expiry': {
 		'type': 'Date',
 		'default':Date.now,
-		'expires': parseInt(process.env.UI_LOGS_TTL) | 172800
+		'expires': parseInt(config.UI_LOGS_TTL) | 172800
 	}
 };
 module.exports = definition;
