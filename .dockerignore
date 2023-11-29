@@ -1,0 +1,13 @@
+node_modules
+build
+scripts
+.dockerignore
+.gitignore
+.huskyrc
+.eslintrc.yml
+Dockerfile
+Jenkinsfile
+LICENSE
+mon.yaml
+README.md
+VERSION
