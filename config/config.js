@@ -42,6 +42,20 @@ function mongoLogUrl() {
 	return mongoUrl;
 }
 
+function dbAuthorUrl() {
+	let dbAuthorUrl = process.env.DB_AUTHOR_URL || process.env.MONGO_AUTHOR_URL || 'mongodb://localhost';
+	// if (!dbAuthorUrl.endsWith('/')) dbAuthorUrl += '/';
+	// dbAuthorUrl += (process.env.DB_AUTHOR_DBNAME || process.env.MONGO_AUTHOR_DBNAME || 'datastackConfig');
+	return dbAuthorUrl;
+}
+
+function dbLogsUrl() {
+	let dbLogsUrl = process.env.DB_LOGS_URL || process.env.MONGO_LOGS_URL || 'mongodb://localhost';
+	// if (!dbLogsUrl.endsWith('/')) dbLogsUrl += '/';
+	// dbLogsUrl += (process.env.DB_LOGS_DBNAME || process.env.MONGO_LOGS_DBNAME || 'datastackLogs');
+	return dbLogsUrl;
+}
+
 async function fetchIndexes(mongoose, collectionName, indexKeys) {
 	let indexes = await mongoose.connection.db.collection(collectionName).indexes();
 	const indexObjectKeys = Object.keys(indexKeys);
@@ -88,6 +102,8 @@ module.exports = {
 	baseUrlSM: get('sm') + '/sm',
 	mongoUrl: mongoUrl(),
 	mongoLogUrl: mongoLogUrl(),
+	dbAuthorUrl: dbAuthorUrl(),
+	dbLogsUrl: dbLogsUrl(),
 	baseUrlNE: get('ne') + '/ne',
 	baseUrlUSR: get('user') + '/rbac',
 	agentLogsttl: parseInt(agentLogsttl),
@@ -131,6 +147,14 @@ module.exports = {
 		// reconnectTries: process.env.MONGO_RECONN_TRIES,
 		// reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
 		dbName: process.env.MONGO_LOGS_DBNAME || 'datastackLogs',
+		useNewUrlParser: true
+	},
+	dbAuthorOptions: {
+		dbName: process.env.DB_AUTHOR_DBNAME || process.env.MONGO_AUTHOR_DBNAME || 'datastackLogs',
+		useNewUrlParser: true
+	},
+	dbLogsOptions: {
+		dbName: process.env.DB_LOGS_DBNAME || process.env.MONGO_LOGS_DBNAME || 'datastackLogs',
 		useNewUrlParser: true
 	},
 	API_LOGS_TTL_DAYS: process.env.API_LOGS_TTL_DAYS ? parseInt(process.env.API_LOGS_TTL_DAYS, 10) : 30,

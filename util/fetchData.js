@@ -85,7 +85,8 @@ e.index = async function (req, res, data) {
 	logger.debug(`[${txnId}] Index :: Collection-${colName} :: Select :: ${JSON.stringify(selectObject)}`);
 
 	if (data == 'sm.audit') {
-		let service = await global.mongoDBConfig.collection('services').findOne({ _id: filter['data._id'], app: reqParams.app });
+		// let service = await global.mongoDBConfig.collection('services').findOne({ _id: filter['data._id'], app: reqParams.app });
+		let service = await global.dbAuthorConnection.collection('services').findOne({ _id: filter['data._id'], app: reqParams.app });
 
 		if (!service) {
 			return res.status(404).json({ "message": "Service is not present in the app."})
@@ -137,7 +138,8 @@ e.count = async function (req, res, data) {
 	logger.debug(`[${txnId}] Count :: Collection-${colName} :: Filter :: ${JSON.stringify(filter)}`);
 
 	if (data == 'sm.audit') {
-		let service = await global.mongoDBConfig.collection('services').findOne({ _id: filter['data._id'], app: reqParams.app });
+		// let service = await global.mongoDBConfig.collection('services').findOne({ _id: filter['data._id'], app: reqParams.app });
+		let service = await global.dbAuthorConnection.collection('services').findOne({ _id: filter['data._id'], app: reqParams.app });
 
 		if (!service) {
 			return res.status(404).json({ "message": "Service is not present in the app."})
