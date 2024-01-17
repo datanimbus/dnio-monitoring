@@ -1,9 +1,12 @@
 const cuti = require('@appveen/utils');
 const log4js = cuti.logger.getLogger;
 const loggerName = isK8sEnv() ? `brahma-monitoring [${process.env.HOSTNAME}]` : 'brahma-monitoring';
+const dataStackUtils = require("@appveen/data.stack-utils");
+
 let logger = log4js.getLogger(loggerName);
-let agentLogsttl = process.env.B2B_AGENT_LOG_TTL || '2592000';
 logger.level = process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'info';
+
+let envVariables = {};
 
 function isK8sEnv() {
 	return process.env.KUBERNETES_SERVICE_HOST && process.env.KUBERNETES_SERVICE_PORT;
@@ -84,13 +87,24 @@ async function indexUtil(mongoose, collectionName, indexObject) {
 	}
 }
 
+async function fetchEnvironmentVariablesFromDB() {
+    try {
+        envVariables = await dataStackUtils.database.fetchEnvVariables();
+		return envVariables;
+    } catch (error) {
+        logger.error(error);
+        logger.error('Fetching environment variables failed. Crashing the component.');
+        process.exit(1);
+    }
+}
+
 module.exports = {
 	baseUrlSM: get('sm') + '/sm',
 	mongoUrl: mongoUrl(),
 	mongoLogUrl: mongoLogUrl(),
 	baseUrlNE: get('ne') + '/ne',
 	baseUrlUSR: get('user') + '/rbac',
-	agentLogsttl: parseInt(agentLogsttl),
+	agentLogsttl: parseInt(envVariables.B2B_AGENT_LOG_TTL || '2592000'),
 	streamingConfig: {
 		url: process.env.STREAMING_HOST || 'nats://127.0.0.1:4222',
 		user: process.env.STREAMING_USER || '',
@@ -133,9 +147,11 @@ module.exports = {
 		dbName: process.env.MONGO_LOGS_DBNAME || 'datastackLogs',
 		useNewUrlParser: true
 	},
-	API_LOGS_TTL_DAYS: process.env.API_LOGS_TTL_DAYS ? parseInt(process.env.API_LOGS_TTL_DAYS, 10) : 30,
-	FAAS_LOGS_TTL_DAYS: process.env.FAAS_LOGS_TTL_DAYS ? parseInt(process.env.FAAS_LOGS_TTL_DAYS, 10) : 30,
+	API_LOGS_TTL_DAYS: envVariables.API_LOGS_TTL_DAYS ? parseInt(envVariables.API_LOGS_TTL_DAYS, 10) : 30,
+	FAAS_LOGS_TTL_DAYS: envVariables.FAAS_LOGS_TTL_DAYS ? parseInt(envVariables.FAAS_LOGS_TTL_DAYS, 10) : 30,
 	TOKEN_SECRET: process.env.TOKEN_SECRET || 'u?5k167v13w5fhjhuiweuyqi67621gqwdjavnbcvadjhgqyuqagsduyqtw87e187etqiasjdbabnvczmxcnkzn',
-	RBAC_JWT_KEY: process.env.RBAC_JWT_KEY || 'u?5k167v13w5fhjhuiweuyqi67621gqwdjavnbcvadjhgqyuqagsduyqtw87e187etqiasjdbabnvczmxcnkzn',
-	indexUtil
+	RBAC_JWT_KEY: envVariables.RBAC_JWT_KEY || 'u?5k167v13w5fhjhuiweuyqi67621gqwdjavnbcvadjhgqyuqagsduyqtw87e187etqiasjdbabnvczmxcnkzn',
+	UI_LOGS_TTL: envVariables.UI_LOGS_TTL,
+	indexUtil,
+	fetchEnvironmentVariablesFromDB: fetchEnvironmentVariablesFromDB
 };
