@@ -89,11 +89,11 @@ app.use(express.urlencoded({ extended: true }));
 		global.dbAuthorConnection = mongoose.connections[1];
 
 		logger.info('Connected to Author DB ', conf.dbAuthorOptions.dbName);
-		mongoose.on('connecting', () => { logger.info('-------------------------Auhtor DB connecting-------------------------'); });
-		mongoose.on('close', () => { logger.error('-------------------------Author DB lost connection-------------------------'); });
-		mongoose.on('reconnect', () => { logger.info('-------------------------Auhtor DB reconnected-------------------------'); });
-		mongoose.on('connected', () => { logger.info('Author DB connected'); });
-		mongoose.on('reconnectFailed', () => { logger.error('-------------------------Auhtor DB failed to reconnect-------------------------'); });
+		mongoose.connection.on('connecting', () => { logger.info('-------------------------Auhtor DB connecting-------------------------'); });
+		mongoose.connection.on('close', () => { logger.error('-------------------------Author DB lost connection-------------------------'); });
+		mongoose.connection.on('reconnect', () => { logger.info('-------------------------Auhtor DB reconnected-------------------------'); });
+		mongoose.connection.on('connected', () => { logger.info('Author DB connected'); });
+		mongoose.connection.on('reconnectFailed', () => { logger.error('-------------------------Auhtor DB failed to reconnect-------------------------'); });
 
 		await require('./util/init')()
 		
