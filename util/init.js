@@ -21,7 +21,8 @@ async function updateExistingSMAudit() {
             let serviceIds = _.map(data, e => e.data._id);
             serviceIds = _.uniq(serviceIds);
     
-            let serviceData = await global.mongoDBConfig.collection('services').find({ _id: { "$in": serviceIds} }).toArray();
+            // let serviceData = await global.mongoDBConfig.collection('services').find({ _id: { "$in": serviceIds} }).toArray();
+            let serviceData = await global.dbAuthorConnection.collection('services').find({ _id: { "$in": serviceIds} }).toArray();
     
             let serviceObj = {};
             serviceData.map(e => serviceObj[e._id] =  e.app );
